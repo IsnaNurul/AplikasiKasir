@@ -102,18 +102,23 @@
                                                             {{ $item->total_harga ? 'Rp. ' . number_format($item->total_harga, '0', ',', '.') : '0' }}
                                                         </h3>
                                                         <div class="modal-body p-4">
-                                                            <form action="/pesanan/update/{{ $item->id_penjualan }}" method="post">
+                                                            <form action="/pesanan/update/{{ $item->id_penjualan }}"
+                                                                method="post">
                                                                 @csrf
                                                                 <div class="customer-info block-section mb-3">
                                                                     <h6>Informasi Pelanggan</h6>
                                                                     <div class="input-block d-flex align-items-center">
                                                                         <div class="flex-grow-1 me-2 mt-2">
-                                                                            <select name="pelanggan_id" class="form-select select"
-                                                                                required>
-                                                                                <option value="">Tanpa Pelanggan</option>
+                                                                            <select name="pelanggan_id"
+                                                                                class="form-select select" required>
+                                                                                <option value="">Tanpa Pelanggan
+                                                                                </option>
                                                                                 @foreach ($pelanggan as $pelanggans)
-                                                                                    <option value="{{ $pelanggans->id_pelanggan }}" {{ $item->pelanggan_id == $pelanggans->id_pelanggan ? 'selected' : '' }}>
-                                                                                        {{ $pelanggans->nama_pelanggan }}</option>
+                                                                                    <option
+                                                                                        value="{{ $pelanggans->id_pelanggan }}"
+                                                                                        {{ $item->pelanggan_id == $pelanggans->id_pelanggan ? 'selected' : '' }}>
+                                                                                        {{ $pelanggans->nama_pelanggan }}
+                                                                                    </option>
                                                                                 @endforeach
                                                                             </select>
                                                                         </div>
@@ -130,7 +135,8 @@
                                                                     </div>
                                                                 </div>
                                                                 <h6 class="mb-3">Metode Pembayaran</h6>
-                                                                <div class="text-center d-flex justify-content-between mb-3">
+                                                                <div
+                                                                    class="text-center d-flex justify-content-between mb-3">
                                                                     <div class="col-md-6 me-1">
                                                                         <a style="width: 100%"
                                                                             class="btn btn-lg btn-outline-success tunai-btn">Tunai</a>
@@ -143,30 +149,26 @@
                                                                 <div class="input-group-wrapper">
                                                                     <div id="tunai-form" class="mb-3"
                                                                         style="display:none;">
-                                                                        <h6 class="mb-2">Tunai</h6>
+                                                                        <h6 class="mb-2">Uang Bayar</h6>
                                                                         <div class="input-group">
-                                                                            <button class="btn btn-outline-secondary"
-                                                                                id="button-addon1" type="button">Rp.</button>
                                                                             <input class="form-control" type="number"
-                                                                                name="jumlah_bayar" placeholder=""
+                                                                                name="jumlah_bayar" 
                                                                                 id="jumlah-bayar"
-                                                                                onchange="hitungUangKembali()">
+                                                                                onchange="hitungUangKembali()" required>
                                                                         </div>
+                                                                        <h6 class="mb-2">Uang Kembali</h6>
                                                                         <div class="input-group">
-                                                                            <button class="btn btn-outline-secondary"
-                                                                                id="button-addon1" type="button">Rp.</button>
                                                                             <input class="form-control" type="number"
-                                                                                placeholder="" id="uang-kembali" readonly>
-                                                                            <button class="btn btn-outline-warning"
-                                                                                type="button">Kembali</button>
+                                                                                placeholder="" id="uang-kembali"
+                                                                                placeholder="" readonly>
                                                                         </div>
                                                                     </div>
                                                                     <div id="transfer-form" class="mb-3"
                                                                         style="display:none;">
-                                                                        <h6 class="mb-3">Transfer</h6>
+                                                                        <h6 class="mb-2">Transfer</h6>
                                                                         <div class="input-group mb-3">
-                                                                            <select class="form-select" name="tipe_pembayaran"
-                                                                                id="">
+                                                                            <select class="form-select"
+                                                                                name="tipe_pembayaran" id="">
                                                                                 <option value=""></option>
                                                                                 <option value="BCA(87578997)">BCA
                                                                                     - 87578997</option>

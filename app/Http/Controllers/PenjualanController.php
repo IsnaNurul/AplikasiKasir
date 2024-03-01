@@ -195,8 +195,12 @@ class PenjualanController extends Controller
     {
         $jumlah_produk = $request->input('jumlah_produk');
         $keterangan = $request->input('keterangan');
-
+        $produk = Produk::where('kode_produk', $kode_produk)->first();
         $cart = session()->get('carts');
+
+        if ($jumlah_produk > $produk['stok']) {
+            return back()->with('error', 'Stok produk ' . $produk->nama_produk . ' tidak mencukupi!');
+        }
 
         if (!$cart || !isset($cart[$kode_produk])) {
             abort(404); // Produk tidak ditemukan dalam keranjang
@@ -286,7 +290,7 @@ class PenjualanController extends Controller
                 // $jumlahBayar = $req->input('jumlah_bayar');
 
                 if ($metode_pembayaran == 'transfer') {
-                    $jumlahBayar = $hargaFinal;
+                    $jumlahBayar = $totalFinal;
                 } elseif ($metode_pembayaran == 'cash') {
                     $jumlahBayar = $req->jumlah_bayar;
                 }

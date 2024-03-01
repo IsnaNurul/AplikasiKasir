@@ -103,14 +103,14 @@
                             </a>
                         </li>
                         
-                        <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
+                        {{-- <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
                                 class="sidebar-link sidebar-title link-nav" href="{{ url('/pengiriman') }}">
                                 <svg class="stroke-icon">
                                     <use href="../../assets/svg/icon-sprite.svg#new-order"></use>
                                 </svg>
                                 <svg class="fill-icon">
                                     <use href="../../assets/svg/icon-sprite.svg#fill-file"></use>
-                                </svg><span>Pengiriman</span></a></li>
+                                </svg><span>Pengiriman</span></a></li> --}}
                         <li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
                             <a class="sidebar-link sidebar-title link-nav" href="{{ url('/laporan-penjualan') }}">
                                 <svg class="stroke-icon">
@@ -198,14 +198,14 @@
                                 </svg><span>Pesanan</span>
                             </a>
                         </li>
-                        <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
+                        {{-- <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
                                 class="sidebar-link sidebar-title link-nav" href="{{ url('/pengiriman') }}">
                                 <svg class="stroke-icon">
                                     <use href="../../assets/svg/icon-sprite.svg#new-order"></use>
                                 </svg>
                                 <svg class="fill-icon">
                                     <use href="../../assets/svg/icon-sprite.svg#fill-file"></use>
-                                </svg><span>Pengiriman</span></a></li>
+                                </svg><span>Pengiriman</span></a></li> --}}
                         <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
                                 class="sidebar-link sidebar-title" href="{{ url('/produk') }}">
                                 <svg class="stroke-icon">

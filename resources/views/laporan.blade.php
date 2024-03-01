@@ -134,7 +134,7 @@
                                                 @if ($index === 0)
                                                     <td rowspan="{{ $produkCount }}">{{ $item->kode_transaksi }}</td>
                                                     <td rowspan="{{ $produkCount }}">
-                                                        {{ $item->tanggal_jual? \Carbon\Carbon::parse($item->tanggal_jual)->locale('id')->translatedFormat('j F Y'): '-' }}
+                                                        {{ $item->tanggal_jual? \Carbon\Carbon::parse($item->tanggal_jual)->locale('id')->translatedFormat('j F Y, H:i'): '-' }}
                                                     </td>
                                                     <td rowspan="{{ $produkCount }}" style="width: 15%">
                                                         {{ $item->tipe_penjualan }}, <br>
@@ -165,7 +165,7 @@
                                                 </td> --}}
                                                 @if ($index === 0)
                                                     <td rowspan="{{ $produkCount }}">
-                                                        <a href="/laporan-penjualan/invoice/{{ $item->id_penjualan }}">Cetak Invoice</a>
+                                                        <a href="/laporan-penjualan/invoice/{{ $item->id_penjualan }}" target="_blank">Lihat Invoice</a>
                                                     </td>
                                                 @endif
                                             </tr>

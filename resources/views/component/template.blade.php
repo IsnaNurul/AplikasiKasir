@@ -251,7 +251,8 @@
                             </div>
                             <ul class="profile-dropdown onhover-show-div">
                                 <li><a href="sign-up.html"><i data-feather="user"></i><span>Account </span></a></li>
-                                <li><a href="/logout"><i data-feather="log-in"> </i><span>Logout</span></a></li>
+                                <li><a href="javascript:void(0)" onclick="confirmLogout()"><i data-feather="log-in">
+                                        </i><span>Logout</span></a></li>
                             </ul>
                         </li>
                     </ul>
@@ -289,6 +290,16 @@
         </div>
     </div>
 
+    <script>
+        function confirmLogout() {
+            if (confirm("Apakah Anda yakin ingin logout?")) {
+                window.location.href = "/logout"; // Redirect ke halaman logout jika pengguna menekan OK
+            } else {
+                // Batalkan logout
+                // Anda dapat menambahkan kode tambahan di sini, jika diperlukan
+            }
+        }
+    </script>
     <!-- latest jquery-->
     <script src="../../assets/js/jquery.min.js"></script>
     <!-- Bootstrap js-->
