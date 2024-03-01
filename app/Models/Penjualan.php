@@ -26,6 +26,10 @@ class Penjualan extends Model
     public function detail_jual() {
         return $this->hasMany(DetailJual::class, 'id_penjualan');
     }
+
+    public function detail_juals() {
+        return $this->belongsTo(DetailJual::class, 'id_penjualan');
+    }
 }
 
 

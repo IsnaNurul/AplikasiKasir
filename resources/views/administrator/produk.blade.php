@@ -51,7 +51,6 @@
                                         <th> <span class="f-light f-w-600">Kode produk</span></th>
                                         <th> <span class="f-light f-w-600">Harga</span></th>
                                         <th> <span class="f-light f-w-600">Stok</span></th>
-                                        <th> <span class="f-light f-w-600">Expired</span></th>
                                         <th> <span class="f-light f-w-600">Kategori</span></th>
                                         <th> <span class="f-light f-w-600">Diskon</span></th>
                                         <th> <span class="f-light f-w-600">Action</span></th>
@@ -66,8 +65,7 @@
                                             <td>
                                                 <div class="product-names">
                                                     <img class="img-fluid" style="width: 80px"
-                                                            src="{{ asset('storage/' . $item->gambar_produk) }}"
-                                                            alt="laptop">
+                                                        src="{{ asset('storage/' . $item->gambar_produk) }}" alt="laptop">
                                                     {{-- <div class="light-product-box"></div> --}}
                                                     <p>{{ $item->nama_produk }}</p>
                                                 </div>
@@ -78,19 +76,19 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <p class="f-light">{{ 'Rp. ' . number_format($item->harga) }}</p>
+                                                <p class="f-light">{{ 'Rp. ' . number_format($item->harga, '0', ',', '.') }}</p>
                                             </td>
                                             <td>
                                                 <p class="f-light">{{ $item->stok }}</p>
                                             </td>
-                                            <td>
+                                            {{-- <td>
                                                 @php
                                                     $date = date('Y-m-d');
                                                 @endphp
                                                 <p
                                                     class="f-light {{ $item->tanggal_kadaluarsa > $date ? 'text-dark' : 'text-danger' }}">
                                                     {{ $item->tanggal_kadaluarsa }}</p>
-                                            </td>
+                                            </td> --}}
                                             <td>
                                                 <p class="f-light">{{ $item->kategori_produk->nama_kategori }}</p>
                                             </td>
@@ -164,27 +162,7 @@
                                                                                 required="">
                                                                             <div class="valid-feedback">Looks good!</div>
                                                                         </div>
-                                                                        <div class="col-md-8 mb-3">
-                                                                            <label class="form-label"
-                                                                                for="validationCustom03">Harga</label>
-                                                                            <input class="form-control"
-                                                                                id="validationCustom03" type="number"
-                                                                                name="harga"
-                                                                                value="{{ $item->harga }}"
-                                                                                placeholder="Harga produk" required="">
-                                                                            <div class="valid-feedback">Looks good!</div>
-                                                                        </div>
-                                                                        <div class="col-md-4 mb-4">
-                                                                            <label class="form-label"
-                                                                                for="validationCustom04">Stok</label>
-                                                                            <input class="form-control"
-                                                                                id="validationCustom03" type="number"
-                                                                                name="stok"
-                                                                                value="{{ $item->stok }}"
-                                                                                placeholder="stok produk" required="">
-                                                                            <div class="valid-feedback">Looks good!</div>
-                                                                        </div>
-                                                                        <div class="col-md-6 mb-3">
+                                                                        <div class="col-md-12 mb-3">
                                                                             <label class="form-label"
                                                                                 for="validationCustom04">Kategori</label>
                                                                             <select class="form-select"
@@ -198,16 +176,28 @@
                                                                                 @endforeach
                                                                             </select>
                                                                             <div class="valid-feedback">Looks good!</div>
+                                                                            <a href="#!" data-bs-toggle="modal"
+                                                                                data-bs-target="#modalKategori"><i
+                                                                                    class="me-2 fa fa-plus"> </i>kategori
+                                                                                baru </a>
                                                                         </div>
-                                                                        <div class="col-md-6 mb-3">
-                                                                            <label class="form-label"
-                                                                                for="validationCustom04">Expired</label>
-                                                                            <input class="form-control"
-                                                                                id="validationCustom03" type="date"
-                                                                                name="tanggal_kadaluarsa"
-                                                                                value="{{ $item->tanggal_kadaluarsa }}"
+                                                                        <div class="col-md-7 mb-3">
+                                                                            <label class="form-label" for="validationCustom03">Harga</label>
+                                                                            <input class="form-control" value="{{ $item->harga }}" id="validationCustom03" type="number" name="harga"
+                                                                                placeholder="Masukan harga produk" required="">
+                                                                            <div class="valid-feedback">Looks good!</div>
+                                                                        </div>
+                                                                        <div class="col-md-3 mb-3">
+                                                                            <label class="form-label" for="validationCustom03">Stok</label>
+                                                                            <input class="form-control" value="{{ $item->stok }}" id="validationCustom03" type="number" name="stok"
                                                                                 placeholder="" required="">
                                                                             <div class="valid-feedback">Looks good!</div>
+                                                                        </div>
+                                                                        <div class="col-md-2 mb-3">
+                                                                            <div>
+                                                                                <label for="" class="mt-3"></label>
+                                                                                <p>Porsi</p>
+                                                                            </div>
                                                                         </div>
                                                                         <div class="col-md-12 mb-2">
                                                                             <label class="form-label"
@@ -347,8 +337,9 @@
                             @csrf
                             <div class="col-md-12">
                                 <label class="form-label" for="validationCustom01">Kode Produk</label>
-                                <input class="form-control" id="validationCustom01" type="text" name="kode_produk"
-                                    placeholder="Masukan kode produk" required="">
+                                <input class="form-control" id="validationCustom01" value="{{ $kd_produk }}"
+                                    type="text" name="kode_produk" placeholder="Masukan kode produk" required=""
+                                    readonly>
                                 <div class="valid-feedback">Looks good!</div>
                             </div>
                             <div class="col-md-12">
@@ -357,19 +348,7 @@
                                     placeholder="Masukan nama produk" required="">
                                 <div class="valid-feedback">Looks good!</div>
                             </div>
-                            <div class="col-md-8">
-                                <label class="form-label" for="validationCustom03">Harga</label>
-                                <input class="form-control" id="validationCustom03" type="number" name="harga"
-                                    placeholder="Masukan harga produk" required="">
-                                <div class="valid-feedback">Looks good!</div>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label" for="validationCustom03">Stok</label>
-                                <input class="form-control" id="validationCustom03" type="number" name="stok"
-                                    placeholder="Masukan stok produk" required="">
-                                <div class="valid-feedback">Looks good!</div>
-                            </div>
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <label class="form-label" for="validationCustom04">Kategori</label>
                                 <select class="form-select" name="kategori_produk_id" id="">
                                     <option value="">Pilih Kategori</option>
@@ -379,15 +358,26 @@
                                     @endforeach
                                 </select>
                                 <div class="valid-feedback">Looks good!</div>
+                                <a href="#!" data-bs-toggle="modal" data-bs-target="#modalKategori"><i
+                                        class="me-2 fa fa-plus"> </i>kategori baru </a>
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label" for="validationCustom05">Expired</label>
-                                <input class="form-control" id="validationCustom05" type="date"
-                                    name="tanggal_kadaluarsa" placeholder="" required="">
+                            <div class="col-md-7">
+                                <label class="form-label" for="validationCustom03">Harga</label>
+                                <input class="form-control" id="validationCustom03" type="number" name="harga"
+                                    placeholder="Masukan harga produk" required="">
                                 <div class="valid-feedback">Looks good!</div>
                             </div>
-                            <div class="category-buton col-md-6"><a href="#!" data-bs-toggle="modal"
-                                    data-bs-target="#modalKategori"><i class="me-2 fa fa-plus"> </i>kategori baru </a>
+                            <div class="col-md-3">
+                                <label class="form-label" for="validationCustom03">Stok</label>
+                                <input class="form-control" id="validationCustom03" type="number" name="stok"
+                                    placeholder="" required="">
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="" class="mt-3"></label>
+                                <div>
+                                    <p>Porsi</p>
+                                </div>
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label" for="validationCustom06">Gambar Produk</label>

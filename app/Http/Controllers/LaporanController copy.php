@@ -14,7 +14,7 @@ class LaporanController extends Controller
     public function index(Request $request)
     {
         // Mengambil data pesanan
-        $query = Penjualan::with(['pelanggan']);
+        $data['penjualan'] = Penjualan::with(['pelanggan'])->where('status', 'selesai');
 
         // Jika terdapat filter tanggal
         if ($request->has('start_date') && $request->has('end_date')) {
@@ -22,11 +22,11 @@ class LaporanController extends Controller
             $data['endDate'] = $request->input('end_date');
 
             // Menambahkan kondisi untuk filter tanggal
-            $query->whereDate('tanggal_jual', '>=', $data['startDate'])
+            $data['penjualan']->whereDate('tanggal_jual', '>=', $data['startDate'])
                 ->whereDate('tanggal_jual', '<=', $data['endDate']);
         }
 
-        $data['pesanan'] = $query->get();
+        $data['pesanan'] = $data['penjualan']->get();
 
         foreach ($data['pesanan'] as $key => $value) {
             $data['detail_jual'][$value->id_penjualan] = DetailJual::where('penjualan_id', $value->id_penjualan)->with('produk')->get();
@@ -40,27 +40,18 @@ class LaporanController extends Controller
         $startDate = $request->start_date ?? date('Y-m-d');
         $endDate = $request->end_date ?? date('Y-m-d');
 
-        $pesanan = Penjualan::whereBetween('tanggal_jual', [$startDate, $endDate])->with('pelanggan')->get();
+        $pesanan = Penjualan::whereBetween('tanggal_jual', [$startDate, $endDate])->where('status', 'selesai')->with('pelanggan')->get();
 
         $detail_jual = [];
+
         foreach ($pesanan as $key => $value) {
             $detail_jual[$value->id_penjualan] = DetailJual::where('penjualan_id', $value->id_penjualan)->with('produk')->get();
         }
-
-        return Excel::download(new LaporanExport($pesanan, $detail_jual, $startDate, $endDate), 'laporan-penjualan.xlsx');
-    }
-
-    private function getData($request)
-    {
-        $query = Penjualan::with(['pelanggan']);
-
-        if ($request->has('start_date') && $request->has('end_date')) {
-            $startDate = $request->input('start_date');
-            $endDate = $request->input('end_date');
-
-            $query->whereBetween('tanggal_jual', [$startDate, $endDate]);
+        // Cek apakah ada data penjualan
+        if ($pesanan->isEmpty()) {
+            return redirect()->back()->with('error', 'Tidak ada data penjualan yang tersedia.');
         }
 
-        return $query->get();
+        return Excel::download(new LaporanExport($pesanan, $detail_jual, $startDate, $endDate), 'laporan-penjualan.xlsx');
     }
 }

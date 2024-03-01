@@ -1,6 +1,6 @@
 @extends('component.template')
 
-@if (auth()->user()->level_akses == 'petugas')
+@if (auth()->user()->level_akses == 'petugas' || auth()->user()->level_akses == 'administrator')
     @section('style')
         <style>
             .card .me-2 {
@@ -159,7 +159,6 @@
                                                 <div class="input-block d-flex align-items-center">
                                                     <div class="flex-grow-1 me-2 mt-2">
                                                         <select name="pelanggan_id" class="form-select select" required>
-                                                            <option value="">Tanpa Pelanggan</option>
                                                             @foreach ($pelanggan as $pelanggans)
                                                                 <option value="{{ $pelanggans->id_pelanggan }}">
                                                                     {{ $pelanggans->nama_pelanggan }}</option>
@@ -175,7 +174,6 @@
                                                         <select name="tipe_penjualan" class="form-select select">
                                                             <option value="dine in">Dine in</option>
                                                             <option value="take away">Take away</option>
-                                                            <option value="online">Online</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -213,39 +211,53 @@
 
                                                                     @php $total += $details['harga'] * $details['jumlah_produk']; @endphp
                                                                     @php $totalFinal = $total - $diskonFinal; @endphp
+                                                                    <td class="text-start">
+                                                                        {{ $details['nama_produk'] }} x
+                                                                        <b>{{ $details['jumlah_produk'] }}</b> <br>
+                                                                        @if ($details['keterangan'])
+                                                                            {{ $details['keterangan'] }} <br>
+                                                                        @endif
+                                                                        @if ($details['diskon_produk_id'] != null)
+                                                                            Disc. - {{ number_format($totalDiskon) }}
+                                                                        @endif
+                                                                    </td>
+                                                                    <td class="text-end">
+                                                                        {{ 'Rp. ' . number_format($details['harga'] * $details['jumlah_produk']) }}
+                                                                        <br>
+                                                                        @if ($details['keterangan'])
+                                                                            <span></span> <br>
+                                                                        @endif
+                                                                        @if ($details['diskon_produk_id'] != null)
+                                                                            {{ 'Rp. ' . number_format($hargaFinal) }}
+                                                                        @endif
 
-                                                                    <tr>
-                                                                        <td class="text-start" style="width: 5%">
-                                                                            <b>{{ $details['jumlah_produk'] }}</b><br>
-                                                                            @if ($details['diskon_produk_id'] != null)
-                                                                                Disc.
-                                                                            @endif
-
-                                                                        </td>
-                                                                        <td class="text-start">
-                                                                            <b>{{ $details['nama_produk'] }}</b> <br>
-                                                                            @if ($details['diskon_produk_id'] != null)
-                                                                                - {{ number_format($totalDiskon) }}
-                                                                            @endif
-                                                                        </td>
-                                                                        <td class="text-end">
-                                                                            {{ 'Rp. ' . number_format($details['harga'] * $details['jumlah_produk']) }}
-                                                                            <br>
-                                                                            @if ($details['diskon_produk_id'] != null)
-                                                                                {{ 'Rp. ' . number_format($hargaFinal) }}
-                                                                            @endif
-
-                                                                        </td>
-                                                                        {{-- <td>{{ $totalDiskon }}</td> --}}
-                                                                        <td class="text-end" style="width: 1%">
-                                                                            <a href="/penjualan/cartHapus/{{ $kode_produk }}"
-                                                                                class="btn btn-danger btn-sm remove-product-btn">
-                                                                                <i class="fa fa-trash"></i>
-                                                                            </a>
-                                                                            @if ($details['diskon_produk_id'] != null)
-                                                                                <span></span>
-                                                                            @endif
-                                                                        </td>
+                                                                    </td>
+                                                                    <td class="text-end" style="width: 1%">
+                                                                        <a href="#" class="update-product-btn"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#exampleModalgetbootstrap{{ $kode_produk }}">
+                                                                            <i class="fa fa-pencil"></i>
+                                                                        </a>
+                                                                        @if ($details['keterangan'])
+                                                                            <span></span> <br>
+                                                                        @endif
+                                                                        @if ($details['diskon_produk_id'] != null)
+                                                                            <span></span>
+                                                                        @endif
+                                                                    </td>
+                                                                    {{-- <td>{{ $totalDiskon }}</td> --}}
+                                                                    <td class="text-end" style="width: 1%">
+                                                                        <a href="/penjualan/cartHapus/{{ $kode_produk }}"
+                                                                            class="remove-product-btn">
+                                                                            <i class="fa fa-trash text-danger"></i>
+                                                                        </a>
+                                                                        @if ($details['keterangan'])
+                                                                            <span></span> <br>
+                                                                        @endif
+                                                                        @if ($details['diskon_produk_id'] != null)
+                                                                            <span></span>
+                                                                        @endif
+                                                                    </td>
                                                                     </tr>
                                                                 @endforeach
                                                             @endif
@@ -324,14 +336,15 @@
                                                                         <h6 class="mb-2">Uang Bayar</h6>
                                                                         <div class="input-group">
                                                                             <input class="form-control" type="number"
-                                                                                name="jumlah_bayar" placeholder="Uang Bayar"
-                                                                                id="jumlah-bayar"
+                                                                                name="jumlah_bayar"
+                                                                                placeholder="Uang Bayar" id="jumlah-bayar"
                                                                                 onchange="hitungUangKembali()" required>
                                                                         </div>
                                                                         <h6 class="mb-2">Uang Kembali</h6>
                                                                         <div class="input-group">
                                                                             <input class="form-control" type="number"
-                                                                                placeholder="" id="uang-kembali" placeholder="" readonly>
+                                                                                placeholder="" id="uang-kembali"
+                                                                                placeholder="" readonly>
                                                                         </div>
                                                                     </div>
                                                                     <div id="transfer-form" class="mb-3"
@@ -386,32 +399,32 @@
                                 <div class="col-md-12">
                                     <label class="form-label" for="validationCustom01">Username</label>
                                     <input class="form-control" id="validationCustom01" type="text" name="username"
-                                        placeholder="Masukan username" >
+                                        placeholder="Masukan username">
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
                                 <div class="col-md-12">
                                     <label class="form-label" for="validationCustom02">Password</label>
                                     <input class="form-control" id="validationCustom02" type="password" name="password"
-                                        placeholder="*******" >
+                                        placeholder="*******">
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
                                 <h6 class="">Data Diri</h6>
                                 <div class="col-md-12">
                                     <label class="form-label" for="validationCustom03">Nama Lengkap</label>
                                     <input class="form-control" id="validationCustom03" type="text"
-                                        name="nama_pelanggan" placeholder="Masukan nama lengkap" >
+                                        name="nama_pelanggan" placeholder="Masukan nama lengkap">
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
                                 <div class="col-md-12">
                                     <label class="form-label" for="validationCustom04">No Telepon</label>
                                     <input class="form-control" id="validationCustom03" type="text" name="no_telepon"
-                                        placeholder="62882xxxxxx" >
+                                        placeholder="62882xxxxxx">
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
                                 <div class="col-md-12">
                                     <label for="form-label" for="validationcustom05">Alamat</label>
                                     <textarea class="form-control" id="" cols="20" rows="3" name="alamat"
-                                        placeholder="Masukan alamat" ></textarea>
+                                        placeholder="Masukan alamat"></textarea>
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
                                 <div class="col-md-12 justify-content-end">
@@ -426,6 +439,78 @@
             </div>
         </div>
         {{-- Modal  --}}
+        @if (session('carts') != null)
+            @foreach (session('carts') as $kode_produk => $details)
+                <div class="modal fade" id="exampleModalgetbootstrap{{ $kode_produk }}" data-bs-backdrop="static"
+                    tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-toggle-wrapper text-start dark-sign-up">
+                                <div class="modal-body p-4">
+                                    <form action="/penjualan/cartUpdate/{{ $kode_produk }}" method="post"
+                                        class="row g-3 needs-validation" novalidate>
+                                        @csrf
+                                        <div class="col-md-12">
+                                            <label class="form-label" for="validationCustom01">Jumlah
+                                                Produk</label>
+                                            <input class="form-control" id="validationCustom01" type="text"
+                                                name="jumlah_produk"
+                                                value="{{ $details['jumlah_produk'] ? $details['jumlah_produk'] : '' }}"
+                                                placeholder="" required="">
+                                            <div class="valid-feedback">
+                                                Looks good!</div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="form-label" for="validationCustom01">Keterangan</label>
+                                            <textarea class="form-control" name="keterangan" id="" cols="30" rows="2">{{ $details['keterangan'] ? $details['keterangan'] : '' }}</textarea>
+                                            <div class="valid-feedback">
+                                                Looks good!</div>
+                                        </div>
+                                        <div class="col-md-12 justify-content-end">
+                                            <button class="btn btn-primary" type="submit">Simpan</button>
+                                            <button class="btn btn-secondary" type="button"
+                                                data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        @endif
+
+        <div class="modal fade" id="exampleModalgetbootstrap" data-bs-backdrop="static" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenter1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-toggle-wrapper text-start dark-sign-up">
+                        <div class="modal-body p-4">
+                            <form action="/kategori-produk/add" method="post" class="row g-3 needs-validation"
+                                novalidate>
+                                @csrf
+                                <div class="col-md-12">
+                                    <label class="form-label" for="validationCustom01">Jumlah Produk</label>
+                                    <input class="form-control" id="validationCustom01" type="text"
+                                        name="nama_kategori" placeholder="" required="">
+                                    <div class="valid-feedback">Looks good!</div>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="form-label" for="validationCustom01">Keterangan</label>
+                                    <textarea class="form-control" name="keterangan" id="" cols="30" rows="2"></textarea>
+                                    <div class="valid-feedback">Looks good!</div>
+                                </div>
+                                <div class="col-md-12 justify-content-end">
+                                    <button class="btn btn-primary" type="submit">Simpan</button>
+                                    <button class="btn btn-secondary" type="button"
+                                        data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     @endsection
 @endif
 

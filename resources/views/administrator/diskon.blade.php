@@ -44,7 +44,7 @@
                                 <tr> 
                                     <th> <span class="f-light f-w-600">No</span></th>
                                     <th> <span class="f-light f-w-600">Nama Diskon</span></th>
-                                    <th> <span class="f-light f-w-600">Jenis Diskon</span></th>
+                                    {{-- <th> <span class="f-light f-w-600">Jenis Diskon</span></th> --}}
                                     <th> <span class="f-light f-w-600">Nilai</span></th>
                                     <th> <span class="f-light f-w-600">Deskripsi</span></th>
                                     <th> <span class="f-light f-w-600">Tanggal Berlaku</span></th>
@@ -63,11 +63,11 @@
                                             <p>{{ $item->nama_diskon }}</p>
                                             </div>
                                         </td>
-                                        <td> 
+                                        {{-- <td> 
                                             <div class="product-names">
                                             <p>{{ $item->jenis_diskon }}</p>
                                             </div>
-                                        </td>
+                                        </td> --}}
                                         <td> 
                                             <span class="badge badge-light-secondary">{{ $item->jenis_diskon=='persentase'? $item->nilai. '%' : 'Rp.'. number_format($item->nilai) }}</span>
                                         </td>
@@ -90,9 +90,9 @@
                                                 @endphp
                                         
                                                 @if($statusDiskon == true)
-                                                    <span class="badge badge-light-success">digunakan</span>
+                                                    <span class="badge badge-light-info">digunakan</span>
                                                 @else
-                                                    <span class="badge badge-light-info">tidak digunakan</span>
+                                                    <span class="badge badge-light-warning">tidak digunakan</span>
                                                 @endif
                                             </p>
                                         </td>

@@ -19,12 +19,13 @@ return new class extends Migration
             $table->unsignedInteger('pelanggan_id')->nullable();
             $table->unsignedInteger('pengguna_id');
             $table->enum('status', ['selesai', 'ditunda', 'dibatalkan']);
-            $table->enum('tipe_penjualan', ['dine in', 'take away', 'online']);
+            $table->enum('tipe_penjualan', ['dine in', 'take away', 'online'])->nullable();
             $table->double('total_harga')->nullable();
             $table->double('jumlah_bayar')->nullable();
             $table->string('rekening_tujuan', 30)->nullable();
-            $table->foreign('pelanggan_id')->references('id_pelanggan')->on('pelanggans')->noActionOnDelete()->noActionOnUpdate();
-            $table->foreign('pengguna_id')->references('id_pengguna')->on('penggunas')->noActionOnDelete()->noActionOnUpdate();
+            $table->string('keterangan')->nullable();
+            $table->foreign('pelanggan_id')->references('id_pelanggan')->on('pelanggans')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('pengguna_id')->references('id_pengguna')->on('penggunas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

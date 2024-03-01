@@ -80,6 +80,7 @@ Route::middleware(['statuslogin'])->group(function () {
     Route::get('/pembelian', [PembelianController::class, 'index']);
     Route::post('/pembelian/add', [PembelianController::class, 'add']);
     Route::get('/pembelian/hapus/{id_pembelian}', [PembelianController::class, 'hapus']);
+    Route::post('/pembelian/edit/{id_pembelian}', [PembelianController::class, 'edit']);
     Route::post('/pembelian/detail/add', [PembelianController::class, 'addDetail']);
     Route::get('/pembelian/detail/{id_pembelian}', [PembelianController::class, 'indexDetail']);
     Route::get('/pembelian/detail/hapus/{id_detail_beli}', [PembelianController::class, 'hapusDetail']);
@@ -87,13 +88,15 @@ Route::middleware(['statuslogin'])->group(function () {
 
     //penjualan
     Route::get('/penjualan', [PenjualanController::class, 'index']);
+    Route::get('/penjualan/riwayat', [PenjualanController::class, 'riwayat']);
     Route::post('/penjualan', [PenjualanController::class, 'search']);
     Route::post('/penjualan/add', [PenjualanController::class, 'add']);
     Route::get('/penjualan/hapus/{id}', [PenjualanController::class, 'hapus']);
-    Route::post('/penjualan/addData', [PenjualanController::class, 'add']);
+    Route::post('/penjualan/addData', [PenjualanController::class, 'addData']);
     Route::post('/penjualan/simpan', [PenjualanController::class, 'simpan']);
     Route::get('/penjualan/cart/{kode_produk}', [PenjualanController::class, 'addCart']);
     Route::get('/penjualan/cartHapus/{nama_produk}', [PenjualanController::class, 'hapusCart']);
+    Route::post('/penjualan/cartUpdate/{nama_produk}', [PenjualanController::class, 'updateCart']);
     Route::get('/penjualan/cartAllHapus', [PenjualanController::class, 'hapusAllCart']);
 
     //pesanan

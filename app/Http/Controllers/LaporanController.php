@@ -37,17 +37,33 @@ class LaporanController extends Controller
 
     public function exportExcel(Request $request)
     {
-        $startDate = $request->start_date ?? date('Y-m-d');
-        $endDate = $request->end_date ?? date('Y-m-d');
+        $startDate = $request->start_date ?? null;
+        $endDate = $request->end_date ?? null;
 
-        $pesanan = Penjualan::whereBetween('tanggal_jual', [$startDate, $endDate])->where('status', 'selesai')->with('pelanggan')->get();
+        $pesananQuery = Penjualan::where('status', 'selesai');
+
+        // Jika terdapat filter tanggal, tambahkan kondisi ke query
+        if ($startDate != null && $endDate != null) {
+            $pesananQuery->whereBetween('tanggal_jual', [$startDate, $endDate]);
+        }
+
+        // dd($startDate,$endDate);
+
+        // Ambil pesanan sesuai dengan query yang telah dibuat
+        $pesanan = $pesananQuery->with('pelanggan')->get();
+
+        // Cek apakah ada data penjualan
+        if ($pesanan->isEmpty()) {
+            return redirect()->back()->with('error', 'Tidak ada data penjualan yang tersedia.');
+        }
 
         $detail_jual = [];
-        
+
         foreach ($pesanan as $key => $value) {
             $detail_jual[$value->id_penjualan] = DetailJual::where('penjualan_id', $value->id_penjualan)->with('produk')->get();
         }
 
+        // Lakukan pengunduhan data sesuai dengan data yang telah diproses
         return Excel::download(new LaporanExport($pesanan, $detail_jual, $startDate, $endDate), 'laporan-penjualan.xlsx');
     }
 }

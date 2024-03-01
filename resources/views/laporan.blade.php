@@ -4,6 +4,8 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/vendors/js-datatables/style.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/vendors/owlcarousel.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/vendors/sweetalert2.css">
+    <!-- Tambahkan animasi CSS menggunakan Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 @endsection
 
 @section('content')
@@ -34,6 +36,31 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="list-product-header">
+                            <div>
+                                <div class="row">
+                                    <div class="col-md-12"></div>
+                                    <div class="col-md-12">
+                                        @if (!request()->has('start_date') && !request()->has('end_date'))
+                                            <div class="alert border-danger text-danger outline-2x alert-dismissible fade show animate__animated animate__fadeInRight"
+                                                role="alert">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-bell">
+                                                    <path
+                                                        d="M22 17H2a3 3 0 0 0 3-3V9a7 7 0 0 1 14 0v5a3 3 0 0 0 3 3zm-8.27 4a2 2 0 0 1-3.46 0">
+                                                    </path>
+                                                </svg>
+                                                <p> Anda belum menerapkan filter. Ekspor akan mencakup seluruh data.</p>
+                                                <button class="btn-close" type="button" data-bs-dismiss="alert"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                        @endif
+
+                                    </div>
+                                </div>
+                            </div>
+
                             <form action="/laporan-penjualan/filterDate" method="get">
                                 <div class="row mb-3">
                                     <div class="col">
@@ -48,13 +75,19 @@
                                     </div>
                                     <div class="col mt-4">
                                         <label for=""></label>
-                                        @php
-                                            $defaultStartDate = $startDate ?? date('Y-m-d');
-                                            $defaultEndDate = $endDate ?? date('Y-m-d');
-                                        @endphp
-                                        <a href="{{ route('laporan-penjualan.export-excel', ['start_date' => $defaultStartDate, 'end_date' => $defaultEndDate]) }}"
-                                            class="btn btn-secondary float-middle float-end mt-n1 ms-2"><i
-                                                class="fa fa-file-excel-o"></i>Export</a>
+                                        {{-- @php
+                                            $startDate ? null : $startDate;
+                                            $endDate ? null : $endDate;
+                                        @endphp --}}
+                                        @if (Request()->is('laporan-penjualan'))
+                                            <a href="{{ route('laporan-penjualan.export-excel', ['start_date' => null, 'end_date' => null]) }}"
+                                                class="btn btn-success float-middle float-end mt-n1 ms-2"><i
+                                                    class="fa fa-file-excel-o"></i>Export</a>
+                                        @else
+                                            <a href="{{ route('laporan-penjualan.export-excel', ['start_date' => $startDate, 'end_date' => $endDate]) }}"
+                                                class="btn btn-success float-middle float-end mt-n1 ms-2"><i
+                                                    class="fa fa-file-excel-o"></i>Export</a>
+                                        @endif
                                         <button type="submit" onclick="validateForm()"
                                             class="btn btn-primary ms-2 float-middle float-end mt-n1">Terapkan</button>
                                     </div>
@@ -69,23 +102,29 @@
                             </form>
                         </div>
                         <div class="table-responsive">
-                            <table class="table table-bordered ">
-                                <thead style="background-color: rgb(132, 155, 228)">
-                                    <tr>
-                                        <th> <span class="text-white f-w-600">Nomor</span></th>
-                                        <th> <span class="text-white f-w-600">Tanggal</span></th>
-                                        <th> <span class="text-white f-w-600">Keterangan</span></th>
-                                        <th> <span class="text-white f-w-600">Dibuat</span></th>
-                                        <th> <span class="text-white f-w-600">Pelanggan</span></th>
-                                        <th> <span class="text-white f-w-600">Produk</span></th>
-                                        <th> <span class="text-white f-w-600">Qty</span></th>
-                                        <th> <span class="text-white f-w-600">Harga Satuan</span></th>
-                                        <th> <span class="text-white f-w-600">Sub Total</span></th>
-                                        <th> <span class="text-white f-w-600">Total</span></th>
+                            <table class="table" id="">
+                                <thead>
+                                    <tr class="border-bottom">
+                                        <th> <span class=" f-w-600">Nomor</span></th>
+                                        <th> <span class=" f-w-600">Tanggal</span></th>
+                                        <th> <span class=" f-w-600">Keterangan</span></th>
+                                        <th> <span class=" f-w-600">Dibuat</span></th>
+                                        <th> <span class=" f-w-600">Pelanggan</span></th>
+                                        <th> <span class=" f-w-600">Produk</span></th>
+                                        <th> <span class=" f-w-600">Qty</span></th>
+                                        <th> <span class=" f-w-600">Harga Satuan</span></th>
+                                        <th> <span class=" f-w-600">Sub Total</span></th>
+                                        <th> <span class=" f-w-600">Total</span></th>
+                                        <th> <span class=" f-w-600">#</span></th>
                                         {{-- <th> <span class="text-white f-w-600">#</span></th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <!-- Set variabel grand total sebelum loop -->
+                                    @php
+                                        $grandTotal = 0;
+                                        $subtotal = 0; // variabel untuk menghitung subtotal per pesanan
+                                    @endphp
                                     @foreach ($pesanan as $key => $item)
                                         @php
                                             $produkCount = count($detail_jual[$item->id_penjualan]);
@@ -95,7 +134,7 @@
                                                 @if ($index === 0)
                                                     <td rowspan="{{ $produkCount }}">{{ $item->kode_transaksi }}</td>
                                                     <td rowspan="{{ $produkCount }}">
-                                                        {{ $item->tanggal_jual ? \Carbon\Carbon::parse($item->tanggal_jual)->isoFormat('D MMMM YYYY, HH:mm:ss') : '-' }}
+                                                        {{ $item->tanggal_jual? \Carbon\Carbon::parse($item->tanggal_jual)->locale('id')->translatedFormat('j F Y'): '-' }}
                                                     </td>
                                                     <td rowspan="{{ $produkCount }}" style="width: 15%">
                                                         {{ $item->tipe_penjualan }}, <br>
@@ -105,6 +144,9 @@
                                                     <td rowspan="{{ $produkCount }}">
                                                         {{ $item->pelanggan_id ? $item->pelanggan->nama_pelanggan : '-' }}
                                                     </td>
+                                                    @php
+                                                        $subtotal = $item->total_harga;
+                                                    @endphp
                                                 @endif
                                                 <td>{{ $detail->produk ? $detail->produk->nama_produk : 'No Product' }}
                                                 </td>
@@ -121,8 +163,21 @@
                                                     <a class="btn btn-sm" onclick="window.print();" href="#"><i style="font-size: 20px"
                                                         class="fa fa-file-excel-o"></i>Print</a>
                                                 </td> --}}
+                                                <td>
+                                                    <a href="/cetak">Cetak Invoice</a>
+                                                </td>
                                             </tr>
                                         @endforeach
+                                        @php
+                                            $grandTotal += $subtotal;
+                                        @endphp
+                                        <!-- Sisipkan total dari pesanan ini di bagian paling bawah -->
+                                        @if ($loop->last)
+                                            <tr>
+                                                <td colspan="10"><strong>Grand Total</strong></td>
+                                                <td><strong>Rp. {{ number_format($grandTotal, 0, ',', '.') }}</strong></td>
+                                            </tr>
+                                        @endif
                                     @endforeach
                                 </tbody>
                             </table>
@@ -137,6 +192,29 @@
 @endsection
 
 @section('script')
+    <!-- Tambahkan fungsi JavaScript untuk animasi -->
+    <script>
+        // Jalankan animasi saat dokumen selesai dimuat
+        document.addEventListener("DOMContentLoaded", function(event) {
+            animateAlert();
+        });
+
+        // Fungsi untuk menambahkan kelas animasi ke alert
+        function animateAlert() {
+            // Cari elemen alert
+            var alertElement = document.querySelector('.alert');
+
+            // Tambahkan kelas animasi ke elemen alert
+            alertElement.classList.add('animate__animated', 'animate__fadeInRight');
+        }
+    </script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    @if (Session::has('error'))
+        <script>
+            swal("Warning", "{{ Session::get('error') }}", "warning");
+        </script>
+    @endif
     <script>
         function validateForm() {
             var startDate = document.getElementById('start_date').value;

@@ -10,13 +10,15 @@ use Illuminate\Support\Facades\Validator;
 class KategoriController extends Controller
 {
     //
-    public function index(){
+    public function index()
+    {
         $data['produk'] = Produk::with('kategori_produk')->get();
         $data['kategori'] = KategoriProduk::all();
         return view('administrator.kategori', $data);
     }
 
-    public function add(Request $req){
+    public function add(Request $req)
+    {
         $validator = Validator::make($req->all(), [
             'nama_kategori' => ['required', 'min:3']
         ]);
@@ -36,7 +38,8 @@ class KategoriController extends Controller
         }
     }
 
-    public function edit(Request $req){
+    public function edit(Request $req)
+    {
         $validator = Validator::make($req->all(), [
             'nama_kategori' => ['required', 'min:3']
         ]);
@@ -46,7 +49,7 @@ class KategoriController extends Controller
         }
 
         $data = KategoriProduk::where('id_kategori_produk', $req->id_kategori_produk)->update([
-            'nama_kategori' => $req->nama_kategori 
+            'nama_kategori' => $req->nama_kategori
         ]);
 
         if ($data) {
@@ -56,8 +59,9 @@ class KategoriController extends Controller
         }
     }
 
-    public function hapus(Request $req){
-        $data =  KategoriProduk::where('id_kategori_produk',$req->id_kategori_produk)->delete();
+    public function hapus(Request $req)
+    {
+        $data =  KategoriProduk::where('id_kategori_produk', $req->id_kategori_produk)->delete();
 
         if ($data) {
             return redirect('/kategori-produk')->with('success', 'Data berhasil dihapus!');

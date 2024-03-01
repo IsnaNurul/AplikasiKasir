@@ -18,7 +18,8 @@ return new class extends Migration
             $table->enum('status_pengiriman', ['proses', 'diterima', 'dibatalkan']);
             $table->unsignedInteger('penjualan_id');
             $table->text('alamat_pengiriman')->nullable();
-            $table->foreign('penjualan_id')->references('id_penjualan')->on('penjualans')->noActionOnDelete()->noActionOnUpdate();
+            $table->string('nama_penerima')->nullable();
+            $table->foreign('penjualan_id')->references('id_penjualan')->on('penjualans')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

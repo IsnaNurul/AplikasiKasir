@@ -44,9 +44,10 @@
                                 <thead>
                                     <tr>
                                         <th> <span class="f-light f-w-600">No</span></th>
-                                        <th> <span class="f-light f-w-600">Id Pembelian</span></th>
-                                        <th> <span class="f-light f-w-600">Admin</span></th>
                                         <th> <span class="f-light f-w-600">Tanggal Pembelian</span></th>
+                                        <th> <span class="f-light f-w-600">Supplier</span></th>
+                                        <th> <span class="f-light f-w-600">Jumlah Produk</span></th>
+                                        <th> <span class="f-light f-w-600">Total Harga Pembelian</span></th>
                                         <th> <span class="f-light f-w-600">Action</span></th>
                                     </tr>
                                 </thead>
@@ -57,20 +58,44 @@
                                                 <p class="f-light">{{ $key + 1 }}</p>
                                             </td>
                                             <td>
-                                                <div class="product-names">
-                                                    <p class="f-light">{{ $item->id_pembelian ? $item->id_pembelian : '-' }}
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <p class="f-light">{{ $item->pengguna ? $item->pengguna->username : '-' }}
-                                                </p>
-                                            </td>
-                                            <td>
                                                 <p class="f-light">
                                                     {{ \Carbon\Carbon::parse($item->tanggal_beli)->locale('id')->translatedFormat('j F Y') }}
                                                 </p>
                                             </td>
+                                            <td>
+                                                <div class="product-names">
+                                                    <p class="f-light">{{ $item->supplier ? $item->supplier : '-' }}
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                @php
+                                                    $jml_produk = DB::table('detail_belis')
+                                                        ->where('pembelian_id', $item->id_pembelian)
+                                                        ->count();
+                                                @endphp
+                                                <p class="f-light">{{ $jml_produk ? $jml_produk : '-' }}
+                                                </p>
+                                            </td>
+
+                                            <td>
+                                                @php
+                                                    $detail_beli = DB::table('detail_belis')
+                                                        ->where('pembelian_id', $item->id_pembelian)
+                                                        ->get();
+
+                                                    $total = 0;
+
+                                                    foreach ($detail_beli as $detail) {
+                                                        $subtotal_produk = $detail->jumlah_beli * $detail->harga;
+                                                        $total += $subtotal_produk;
+                                                    }
+                                                @endphp
+                                                <p class="f-light">
+                                                    {{ $total ? 'Rp. ' . number_format($total, 0, ',', '.') : '-' }}
+                                                </p>
+                                            </td>
+
 
                                             <td>
                                                 <div class="product-action">
@@ -98,18 +123,30 @@
                                                 <div class="modal-content">
                                                     <div
                                                         class="modal-toggle-wrapper social-profile text-start dark-sign-up">
-                                                        <h3 class="modal-header justify-content-center border-0">Pembelian
-                                                            Produk</h3>
+                                                        <h3 class="modal-header justify-content-center border-0">Edit
+                                                            Pembelian</h3>
                                                         <div class="modal-body p-4">
-                                                            <form action="/pembelian/add" method="post"
-                                                                class="row g-3 needs-validation" novalidate>
+                                                            <form action="/pembelian/edit/{{ $item->id_pembelian }}"
+                                                                method="post" class="row g-3 needs-validation" novalidate>
                                                                 @csrf
                                                                 <div class="col-md-12 mb-3">
                                                                     <label class="form-label"
                                                                         for="validationCustom03">Tanggal Pembelian</label>
-                                                                    <input class="form-control" id="validationCustom03"
-                                                                        type="date" name="tanggal_beli"
+                                                                    <input class="form-control"
+                                                                        value="{{ $item->tanggal_beli }}"
+                                                                        id="validationCustom03" type="date"
+                                                                        name="tanggal_beli"
                                                                         placeholder="Masukan harga produk" required="">
+                                                                    <div class="valid-feedback">Looks good!</div>
+                                                                </div>
+                                                                <div class="col-md-12 mb-3">
+                                                                    <label class="form-label"
+                                                                        for="validationCustom03">Supplier</label>
+                                                                    <input class="form-control"
+                                                                        value="{{ $item->supplier }}"
+                                                                        id="validationCustom03" type="text"
+                                                                        name="supplier" placeholder="Masukan harga produk"
+                                                                        required="">
                                                                     <div class="valid-feedback">Looks good!</div>
                                                                 </div>
                                                                 <div class="col-md-12 justify-content-end">
@@ -146,8 +183,15 @@
                             @csrf
                             <div class="col-md-12">
                                 <label class="form-label" for="validationCustom03">Tanggal Pembelian</label>
-                                <input class="form-control" id="validationCustom03" type="date"  value="{{ date('Y-m-d') }}" name="tanggal_beli"
-                                    placeholder="Masukan harga produk" required="">
+                                <input class="form-control" id="validationCustom03" type="date"
+                                    value="{{ date('Y-m-d') }}" name="tanggal_beli" placeholder="Masukan harga produk"
+                                    required="">
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label" for="validationCustom03">Supplier</label>
+                                <input class="form-control" id="validationCustom07" type="text" name="supplier"
+                                    placeholder="Masukan nama supplier" required="">
                                 <div class="valid-feedback">Looks good!</div>
                             </div>
                             <div id="produk-container">
@@ -163,17 +207,23 @@
                                         </select>
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
-                                    <div class="col-md-8 mb-2">
+                                    <div class="col-md-7 mb-2">
                                         <label class="form-label" for="validationCustom01">Harga Produk</label>
                                         <input class="form-control" id="validationCustom01" type="number"
                                             name="harga" placeholder="Masukan harga produk" required="">
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
-                                    <div class="col-md-4 mb-2">
+                                    <div class="col-md-3 mb-2">
                                         <label class="form-label" for="validationCustom02">Jumlah</label>
                                         <input class="form-control" id="validationCustom02" type="number"
-                                            name="jumlah_beli" placeholder="Masukan nama produk" required="">
+                                            name="jumlah_beli" placeholder="" required="">
                                         <div class="valid-feedback">Looks good!</div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="" class="mt-3"></label>
+                                        <div>
+                                            <p>Porsi</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

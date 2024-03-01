@@ -17,8 +17,8 @@ return new class extends Migration
             $table->integer('jumlah_beli');
             $table->unsignedInteger('pembelian_id');
             $table->string('produk_kode', 8)->nullable();
-            $table->foreign('produk_kode')->references('kode_produk')->on('produks')->onDelete('no action')->onUpdate('no action');
-            $table->foreign('pembelian_id')->references('id_pembelian')->on('pembelians')->onDelete('no action')->onUpdate('no action');
+            $table->foreign('produk_kode')->references('kode_produk')->on('produks')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('pembelian_id')->references('id_pembelian')->on('pembelians')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

@@ -17,8 +17,8 @@ return new class extends Migration
             $table->integer('harga_jual');
             $table->unsignedInteger('penjualan_id');
             $table->string('produk_kode', 8);
-            $table->foreign('produk_kode')->references('kode_produk')->on('produks')->noActionOnDelete()->noActionOnUpdate();
-            $table->foreign('penjualan_id')->references('id_penjualan')->on('penjualans')->noActionOnDelete()->noActionOnUpdate();
+            $table->foreign('produk_kode')->references('kode_produk')->on('produks')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('penjualan_id')->references('id_penjualan')->on('penjualans')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

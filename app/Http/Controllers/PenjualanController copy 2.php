@@ -14,8 +14,27 @@ use Illuminate\Support\Facades\DB;
 class PenjualanController extends Controller
 {
     //
-    public function index(Request $request)
+    public function index()
     {
+        // if (auth()->user()->level_akses == 'administrator') {
+        //     $data['penjualan'] = Penjualan::with('pengguna', 'pelanggan')->get();
+        //     $data['produk'] = Produk::all();
+        //     $data['kategori_produk'] = KategoriProduk::all();
+        //     $data['pelanggan'] = Pelanggan::all();
+        //     $data['tanggal'] = Carbon::now('Asia/jakarta');
+        //     $data['kode_otomatis'] = Penjualan::latest()->value('kode_transaksi');
+
+        //     // Jika tidak ada transaksi sebelumnya, kode_transaksi_terakhir akan bernilai null
+        //     if ($data['kode_otomatis']) {
+
+        //         $data['kode_otomatis'] += 1;
+        //     } else {
+        //         $data['kode_otomatis'] = "1";
+        //     }
+
+        //     return view('administrator.penjualan', $data);
+        // }
+
         if (auth()->user()->level_akses == 'petugas' || auth()->user()->level_akses == 'administrator') {
             $data['penjualan'] = Penjualan::with('pengguna', 'pelanggan')->get();
             $data['produk'] = Produk::with('diskon_produk')->get();
@@ -54,18 +73,22 @@ class PenjualanController extends Controller
         }
     }
 
-
     public function riwayat()
     {
-           // Mengambil data pesanan
-           $data['penjualan'] = Penjualan::with(['pelanggan']);
-   
-           $data['pesanan'] = $data['penjualan']->get();
-   
-           foreach ($data['pesanan'] as $key => $value) {
-               $data['detail_jual'][$value->id_penjualan] = DetailJual::where('penjualan_id', $value->id_penjualan)->with('produk')->get();
-           }
+        $data['penjualan'] = Penjualan::with('pengguna', 'pelanggan')->get();
+        $data['produk'] = Produk::all();
+        $data['kategori_produk'] = KategoriProduk::all();
+        $data['pelanggan'] = Pelanggan::all();
+        $data['tanggal'] = Carbon::now('Asia/jakarta');
+        $data['kode_otomatis'] = Penjualan::latest()->value('kode_transaksi');
 
+        // Jika tidak ada transaksi sebelumnya, kode_transaksi_terakhir akan bernilai null
+        if ($data['kode_otomatis']) {
+
+            $data['kode_otomatis'] += 1;
+        } else {
+            $data['kode_otomatis'] = "1";
+        }
         return view('administrator.penjualan', $data);
     }
 

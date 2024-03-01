@@ -48,7 +48,7 @@
                                     <use href="../../assets/svg/icon-sprite.svg#fill-user"></use>
                                 </svg><span>Pengguna</span></a>
                             <ul class="sidebar-submenu">
-                                <li><a href="{{ url('/pengguna/administrator') }}">Administrator</a></li>
+                                {{-- <li><a href="{{ url('/pengguna/administrator') }}">Administrator</a></li> --}}
                                 <li><a href="{{ url('/pengguna/petugas') }}">Petugas</a></li>
                                 <li><a href="{{ url('/pengguna/pelanggan') }}">Pelanggan</a></li>
                             </ul>
@@ -93,7 +93,7 @@
                             </a>
                         </li>
                         <li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
-                            <a class="sidebar-link sidebar-title" href="{{ url('/penjualan') }}">
+                            <a class="sidebar-link sidebar-title" href="{{ url('/penjualan/riwayat') }}">
                                 <svg class="stroke-icon">
                                     <use href="../../assets/svg/icon-sprite.svg#stroke-ecommerce"></use>
                                 </svg>
@@ -102,6 +102,7 @@
                                 </svg><span>Penjualan</span>
                             </a>
                         </li>
+                        
                         <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
                                 class="sidebar-link sidebar-title link-nav" href="{{ url('/pengiriman') }}">
                                 <svg class="stroke-icon">

@@ -8,6 +8,7 @@ use App\Models\Administrator;
 use App\Models\DiskonProduk;
 use App\Models\KategoriProduk;
 use App\Models\Pengguna;
+use App\Models\Petugas;
 use App\Models\Produk;
 use Illuminate\Database\Seeder;
 
@@ -31,11 +32,24 @@ class DatabaseSeeder extends Seeder
             'level_akses' => 'administrator'
         ]);
 
+        Pengguna::create([
+            'username' => 'Petugas',
+            'password' => bcrypt('12345'),
+            'level_akses' => 'petugas'
+        ]);
+
         Administrator::create([
             'nama_administrator' => 'Isna',
             'no_telepon' => '62467899776',
             'alamat' => 'tasikmlaya',
             'pengguna_id' => '1'
+        ]);
+
+        Petugas::create([
+            'nama_petugas' => 'Petugas',
+            'no_telepon' => '62467899776',
+            'alamat' => 'tasikmlaya',
+            'pengguna_id' => '2'
         ]);
 
         KategoriProduk::create([
@@ -65,7 +79,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Produk::create([
-            'kode_produk' => 'PRD001',
+            'kode_produk' => 'PRD-001',
             'nama_produk' => 'Kue Kering',
             'gambar_produk' => '-',
             'harga' => '80000',
@@ -73,17 +87,6 @@ class DatabaseSeeder extends Seeder
             'tanggal_kadaluarsa' => '2024-02-29',
             'kategori_produk_id' => '1',
             'diskon_produk_id' => '1', 
-        ]);
-
-        Produk::create([
-            'kode_produk' => 'PRD002',
-            'nama_produk' => 'Cup cake',
-            'gambar_produk' => '-',
-            'harga' => '80000',
-            'stok' => '10', 
-            'tanggal_kadaluarsa' => '2024-02-29',
-            'kategori_produk_id' => '2',
-            'diskon_produk_id' => '2', 
         ]);
     }
 }

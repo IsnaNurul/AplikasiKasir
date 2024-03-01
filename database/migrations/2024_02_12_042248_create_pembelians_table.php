@@ -16,7 +16,7 @@ return new class extends Migration
             $table->date('tanggal_beli');
             $table->unsignedInteger('pengguna_id');
             $table->string('supplier')->nullable();
-            $table->foreign('pengguna_id')->references('id_pengguna')->on('penggunas')->noActionOnDelete()->noActionOnUpdate();
+            $table->foreign('pengguna_id')->references('id_pengguna')->on('penggunas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

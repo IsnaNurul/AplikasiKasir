@@ -4,270 +4,133 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/vendors/js-datatables/style.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/vendors/owlcarousel.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/vendors/sweetalert2.css">
+    <!-- Tambahkan animasi CSS menggunakan Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 @endsection
 
 @section('content')
     <div class="container-fluid">
         <div class="page-title">
-        <div class="row">
-            <div class="col-6">
-            <h4>
-                Penjualan Produk</h4>
+            <div class="row">
+                <div class="col-6">
+                    <h4>
+                        Pesanan Produk</h4>
+                </div>
+                <div class="col-6">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/dashboard">
+                                <svg class="stroke-icon">
+                                    <use href="../assets/svg/icon-sprite.svg#stroke-home"></use>
+                                </svg></a></li>
+                        <li class="breadcrumb-item">Apps</li>
+                        <li class="breadcrumb-item active">pengiriman Produk</li>
+                    </ol>
+                </div>
             </div>
-            <div class="col-6">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/dashboard">                                       
-                    <svg class="stroke-icon">
-                    <use href="../assets/svg/icon-sprite.svg#stroke-home"></use>
-                    </svg></a></li>
-                <li class="breadcrumb-item">Apps</li>
-                <li class="breadcrumb-item active">Penjualan Produk</li>
-            </ol>
-            </div>
-        </div>
         </div>
     </div>
     <!-- Container-fluid starts-->
     <div class="container-fluid">
-        <div class="row"> 
-            <div class="col-sm-12"> 
-                <div class="card"> 
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
                     <div class="card-body">
-                    <div class="list-product-header">
-                        <div>
-                            <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalgetbootstrap" data-whatever="@getbootstrap"><i class="fa fa-plus"></i>Tambah</a>
+                        <div class="list-product-header">
+                            <div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="list-product">
-                        <table class="table" id="project-status">
-                            <thead> 
-                                <tr> 
-                                    {{-- <th> <span class="f-light f-w-600">No</span></th> --}}
-                                    <th> <span class="f-light f-w-600">Kode Transaksi</span></th>
-                                    <th> <span class="f-light f-w-600">Admin</span></th>
-                                    <th> <span class="f-light f-w-600">Pelanggan</span></th>
-                                    <th> <span class="f-light f-w-600">Metode Pembayaran</span></th>
-                                    <th> <span class="f-light f-w-600">Tanggal penjualan</span></th>
-                                    <th> <span class="f-light f-w-600">Action</span></th>
-                                </tr>
-                            </thead>
-                            <tbody> 
-                                @foreach ($penjualan as $key => $item)
-                                    <tr class="product-removes">
-                                        {{-- <td> 
-                                            <p class="f-light">{{ $key+1 }}</p>
-                                        </td> --}}
-                                        <td> 
-                                            <div class="product-names">
-                                            <p class="f-light">{{ $item->kode_transaksi ? $item->kode_transaksi : '-' }}</p>
-                                            </div>
-                                        </td>
-                                        <td> 
-                                            <p class="f-light">{{ $item->pengguna ? $item->pengguna->username : '-' }}</p>
-                                        </td>
-                                        <td> 
-                                            <p class="f-light">{{ $item->pelanggan ? $item->pelanggan->nama_pelanggan : '-' }}</p>
-                                        </td>
-                                        <td> 
-                                            <p class="f-light">{{ $item->metode_pembayaran ? $item->metode_pembayaran : '-' }}</p>
-                                        </td>
-                                        <td> 
-                                            <p class="f-light"> {{ \Carbon\Carbon::parse($item->tanggal_beli)->locale('id')->translatedFormat('j F Y') }}</p>
-                                        </td>
-                                        
-                                        <td> 
-                                            <div class="product-action">
-                                                <a href="#" class="me-3 edit-admin" data-bs-toggle="modal" data-bs-target="#modalEdit{{ $item->id_penjualan }}" data-whatever="@getbootstrap"><i class="fa fa-pencil-square-o" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit"></i></a>
-                                                <a class="hapus-item me-3" href="/penjualan/hapus/{{ $item->id_penjualan }}"><i class="fa fa-trash-o text-danger"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Hapus"></i></a>
-                                                {{-- <a class="" href="/penjualan/detail/{{ $item->id_penjualan }}"><i class="fa fa-eye text-success"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Detail penjualan"></i></a> --}}
-                                            </div>
-                                        </td>
+                        <div class="table-responsive">
+                            <table class="table" id="">
+                                <thead>
+                                    <tr class="border-bottom">
+                                        <th> <span class=" f-w-600">Nomor</span></th>
+                                        <th> <span class=" f-w-600">Tanggal</span></th>
+                                        <th> <span class=" f-w-600">Keterangan</span></th>
+                                        <th> <span class=" f-w-600">Dibuat</span></th>
+                                        <th> <span class=" f-w-600">Pelanggan</span></th>
+                                        <th> <span class=" f-w-600">Produk</span></th>
+                                        <th> <span class=" f-w-600">Qty</span></th>
+                                        <th> <span class=" f-w-600">Harga Satuan</span></th>
+                                        <th> <span class=" f-w-600">Sub Total</span></th>
+                                        <th> <span class=" f-w-600">Total</span></th>
+                                        <th> <span class=" f-w-600">Status</span></th>
+                                        {{-- <th> <span class="text-white f-w-600">#</span></th> --}}
                                     </tr>
-                                    {{-- Modal Edit --}}
-                                    <div class="modal fade" id="modalEdit{{ $item->id_penjualan }}" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalgetbootstrap" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-toggle-wrapper social-profile text-start dark-sign-up">
-                                                    <h3 class="modal-header justify-content-center border-0">penjualan Produk</h3>
-                                                    <div class="modal-body p-4">
-                                                        <form action="/penjualan/add" method="post" class="row g-3 needs-validation" novalidate>
-                                                            @csrf
-                                                            <div class="col-md-12 mb-3">
-                                                                <label class="form-label" for="validationCustom03">Tanggal penjualan</label>
-                                                                <input class="form-control" id="validationCustom03" type="date" name="tanggal_beli" placeholder="Masukan harga produk" required="">
-                                                                <div class="valid-feedback">Looks good!</div>
-                                                            </div>
-                                                            <div class="col-md-12 justify-content-end"> 
-                                                                <button class="btn btn-primary" type="submit">Simpan</button>
-                                                                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
-                                                            </div>
-                                                        </form>
+                                </thead>
+                                <tbody>
+                                    <!-- Set variabel grand total sebelum loop -->
+                                    @php
+                                        $grandTotal = 0;
+                                        $subtotal = 0; // variabel untuk menghitung subtotal per pesanan
+                                    @endphp
+                                    @foreach ($pesanan as $key => $item)
+                                        @php
+                                            $produkCount = count($detail_jual[$item->id_penjualan]);
+                                        @endphp
+                                        @foreach ($detail_jual[$item->id_penjualan] as $index => $detail)
+                                            <tr>
+                                                @if ($index === 0)
+                                                    <td rowspan="{{ $produkCount }}">{{ $item->kode_transaksi }}</td>
+                                                    <td rowspan="{{ $produkCount }}">
+                                                        {{ $item->tanggal_jual? \Carbon\Carbon::parse($item->tanggal_jual)->locale('id')->translatedFormat('j F Y'): '-' }}
+                                                    </td>
+                                                    <td rowspan="{{ $produkCount }}" style="width: 15%">
+                                                        {{ $item->tipe_penjualan }}, <br>
+                                                        {{ $item->metode_pembayaran }}
+                                                    </td>
+                                                    <td rowspan="{{ $produkCount }}">{{ $item->pengguna->username }}</td>
+                                                    <td rowspan="{{ $produkCount }}">
+                                                        {{ $item->pelanggan_id ? $item->pelanggan->nama_pelanggan : '-' }}
+                                                    </td>
+                                                    @php
+                                                        $subtotal = $item->total_harga;
+                                                    @endphp
+                                                @endif
+                                                <td>{{ $detail->produk ? $detail->produk->nama_produk : 'No Product' }}
+                                                </td>
+                                                <td>{{ $detail->jumlah_produk ? $detail->jumlah_produk : '0' }}</td>
+                                                <td>{{ $detail->jumlah_produk > 0 ? 'Rp. ' . number_format($detail->harga_jual / $detail->jumlah_produk, 0, ',', '.') : '0' }}
+                                                </td>
+                                                <td>Rp. {{ number_format($detail->harga_jual, 0, ',', '.') }}</td>
+                                                @if ($index === 0)
+                                                    <td rowspan="{{ $produkCount }}">Rp.
+                                                        {{ $item->total_harga ? number_format($item->total_harga, '0', ',', '.') : '-' }}
+                                                    </td>
+                                                @endif
+                                                {{-- <td>
+                                                    <a class="btn btn-sm" onclick="window.print();" href="#"><i style="font-size: 20px"
+                                                        class="fa fa-file-excel-o"></i>Print</a>
+                                                </td> --}}
+                                                <td>
+                                                    <div>
+                                                        @if ($item->status == 'selesai')
+                                                            <a href=""><span
+                                                                    class="badge badge-light-success">{{ $item->status }}</span></a>
+                                                        @elseif ($item->status == 'ditunda')
+                                                            <a href=""><span
+                                                                    class="badge badge-light-warning">{{ $item->status }}</span></a>
+                                                        @elseif ($item->status == 'dibatalkan')
+                                                            <a href=""><span
+                                                                    class="badge badge-light-danger">{{ $item->status }}</span></a>
+                                                        @endif
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </tbody>  
-                        </table>
-                    </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {{-- Modal Tambah --}}
-    <div class="modal fade modal-md" id="exampleModalgetbootstrap" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalgetbootstrap" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-toggle-wrapper social-profile text-start dark-sign-up">
-                    <h3 class="modal-header justify-content-center border-0">Penjualan Produk</h3>
-                    <div class="modal-body p-4">
-                        <form action="/penjualan/addData" method="post" class="row g-3 needs-validation" novalidate>
-                            @csrf
-                            <div class="col-md-6">
-                                <label class="form-label" for="validationCustom01">Kode Transaksi</label>
-                                <input class="form-control" id="validationCustom01" type="text" name="kode_transaksi" value="{{ $kode_otomatis }}" readonly>
-                                <div class="valid-feedback">Looks good!</div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label" for="validationCustom01">Tanggal</label>
-                                <input class="form-control" id="validationCustom01" value="{{ date('Y-m-d') }}" type="date" name="tanggal_jual" placeholder="Masukan harga produk" required="">
-                                <div class="valid-feedback">Looks good!</div>
-                            </div>
-                            <div class="col-md-12">
-                                <label class="form-label" for="validationCustom04">Pelanggan</label>
-                                <select class="form-select" name="pelanggan_id" id="" required="">
-                                    <option value="">Pilih Pelanggan</option>
-                                    @foreach ($pelanggan as $item)
-                                        <option value="{{ $item->nama_pelanggan }}">{{ $item->no_telepon . ' - ' . $item->nama_pelanggan }}</option>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        @php
+                                            $grandTotal += $subtotal;
+                                        @endphp
+                                        <!-- Sisipkan total dari pesanan ini di bagian paling bawah -->
+                                        @if ($loop->last)
+                                            <tr>
+                                                <td colspan="10"><strong>Grand Total</strong></td>
+                                                <td><strong>Rp. {{ number_format($grandTotal, 0, ',', '.') }}</strong></td>
+                                            </tr>
+                                        @endif
                                     @endforeach
-                                </select>
-                                <div class="valid-feedback">Looks good!</div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label" for="validationCustom04">Produk</label>
-                                <select class="form-select" name="produk_kode" id="" required="">
-                                    <option value="">Pilih Produk</option>
-                                    @foreach ($produk as $item)
-                                        <option value="{{ $item->kode_produk }}">{{ $item->kode_produk . ' - ' . $item->nama_produk }}</option>
-                                    @endforeach
-                                </select>
-                                <div class="valid-feedback">Looks good!</div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label" for="validationCustom01">Jumlah Produk</label>
-                                <input class="form-control" id="validationCustom01" value="" type="text" name="jumlah_produk" placeholder="" required="">
-                                <div class="valid-feedback">Looks good!</div>
-                            </div>
-                            <div class="col-md-12">
-                                <label class="form-label" for="validationCustom04">Metode Pembayaran</label>
-                                <select class="form-select" name="metode_pembayaran" id="" required="">
-                                    <option value="cash">Cash</option>
-                                    <option value="transfer">Transfer</option>
-                                </select>
-                                <div class="valid-feedback">Looks good!</div>
-                            </div>
-                            {{-- <div class="category-buton col-md-12"><a href="#!" data-bs-toggle="modal" data-bs-target="#modalProduk"><i class="me-2 fa fa-plus"> </i>Produk Baru</a></div> --}}
-                            
-                            <div class="col-md-12 justify-content-end"> 
-                                <button class="btn btn-primary" type="submit">Simpan</button>
-                                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {{-- Modal  --}}
-
-    {{-- Modal Tambah Produk--}}
-    <div class="modal fade" id="modalProduk" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalgetbootstrap" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-toggle-wrapper social-profile text-start dark-sign-up">
-                    <h3 class="modal-header justify-content-center border-0">Menambahkan Produk</h3>
-                    <div class="modal-body p-4">
-                        <form action="/produk/add" method="post" enctype="multipart/form-data" class="row g-3 needs-validation" novalidate>
-                            @csrf
-                            <div class="col-md-12">
-                                <label class="form-label" for="validationCustom02">Nama Produk</label>
-                                <input class="form-control" id="validationCustom02" type="text" name="nama_produk"  placeholder="Masukan nama produk" required="">
-                                <div class="valid-feedback">Looks good!</div>
-                            </div>
-                            <div class="col-md-12">
-                                <label class="form-label" for="validationCustom01">Kode Produk</label>
-                                <input class="form-control" id="validationCustom01" type="text" name="kode_produk" placeholder="Masukan kode produk" required="">
-                                <div class="valid-feedback">Looks good!</div>
-                            </div>
-                            <div class="col-md-12">
-                                <label class="form-label" for="validationCustom02">Nama Produk</label>
-                                <input class="form-control" id="validationCustom02" type="text" name="nama_produk"  placeholder="Masukan nama produk" required="">
-                                <div class="valid-feedback">Looks good!</div>
-                            </div>
-                            <div class="col-md-8">
-                                <label class="form-label" for="validationCustom03">Harga</label>
-                                <input class="form-control" id="validationCustom03" type="number" name="harga" placeholder="Masukan harga produk" required="">
-                                <div class="valid-feedback">Looks good!</div>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label" for="validationCustom03">Stok</label>
-                                <input class="form-control" id="validationCustom03" type="number" name="stok" placeholder="Masukan stok produk" required="">
-                                <div class="valid-feedback">Looks good!</div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label" for="validationCustom04">Kategori</label>
-                                <select class="form-select" name="kategori_produk_id" id="">
-                                    <option value="">Pilih Kategori</option>
-                                    @foreach ($kategori_produk as $item)
-                                        <option value="{{ $item->id_kategori_produk }}">{{ $item->nama_kategori }}</option>
-                                    @endforeach
-                                </select>
-                                <div class="valid-feedback">Looks good!</div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label" for="validationCustom05">Expired</label>
-                                <input class="form-control" id="validationCustom05" type="date" name="tanggal_kadaluarsa" placeholder="" required="">
-                                <div class="valid-feedback">Looks good!</div>
-                            </div>
-                            <div class="category-buton col-md-6"><a href="#!" data-bs-toggle="modal" data-bs-target="#modalKategori"><i class="me-2 fa fa-plus"> </i>kategori baru </a></div>
-                            <div class="col-md-12">
-                                <label class="form-label" for="validationCustom06">Gambar Produk</label>
-                                <input class="form-control" id="validationCustom06" type="file" name="gambar_produk" placeholder="" required="">
-                                <div class="valid-feedback">Looks good!</div>
-                            </div>
-                            <div class="col-md-12 justify-content-end"> 
-                                <button class="btn btn-primary" type="submit">Simpan</button>
-                                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {{-- Modal  --}}
-
-    {{-- Modal Kategori --}}
-    <div class="modal fade" id="modalKategori" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalgetbootstrap" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-toggle-wrapper social-profile text-start dark-sign-up">
-                    <div class="modal-body p-4">
-                        <form action="/kategori-produk/add" method="post" class="row g-3 needs-validation" novalidate>
-                            @csrf
-                            <div class="col-md-12">
-                                <label class="form-label" for="validationCustom01">Nama Kategori</label>
-                                <input class="form-control" id="validationCustom01" type="text" name="nama_kategori" placeholder="Masukan nama kategori" required="">
-                                <div class="valid-feedback">Looks good!</div>
-                            </div>
-                            <div class="col-md-12 justify-content-end"> 
-                                <button class="btn btn-primary" type="submit">Simpan</button>
-                                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
-                            </div>
-                        </form>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -278,6 +141,51 @@
 @endsection
 
 @section('script')
+    <!-- Tambahkan fungsi JavaScript untuk animasi -->
+    <script>
+        // Jalankan animasi saat dokumen selesai dimuat
+        document.addEventListener("DOMContentLoaded", function(event) {
+            animateAlert();
+        });
+
+        // Fungsi untuk menambahkan kelas animasi ke alert
+        function animateAlert() {
+            // Cari elemen alert
+            var alertElement = document.querySelector('.alert');
+
+            // Tambahkan kelas animasi ke elemen alert
+            alertElement.classList.add('animate__animated', 'animate__fadeInRight');
+        }
+    </script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    @if (Session::has('error'))
+        <script>
+            swal("Warning", "{{ Session::get('error') }}", "warning");
+        </script>
+    @endif
+    <script>
+        function validateForm() {
+            var startDate = document.getElementById('start_date').value;
+            var endDate = document.getElementById('end_date').value;
+
+            var diffInDays = getDiffInDays(startDate, endDate);
+
+            if (diffInDays > 30) {
+                alert('Jarak tanggal maksimal adalah 1 bulan.');
+            } else {
+                document.getElementById('filterForm').submit();
+            }
+        }
+
+        function getDiffInDays(startDate, endDate) {
+            var start = new Date(startDate);
+            var end = new Date(endDate);
+            var diffInMs = end - start;
+            var diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+            return diffInDays;
+        }
+    </script>
     <!-- Plugins JS start-->
     <script src="../assets/js/sidebar-menu.js"></script>
     <script src="../assets/js/sidebar-pin.js"></script>
@@ -292,34 +200,4 @@
     <script src="../assets/js/modalpage/validation-modal.js"></script>
     <!-- Plugins JS Ends-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const deleteButtons = document.querySelectorAll('.hapus-item');
-            deleteButtons.forEach(button => {
-                button.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    const url = this.getAttribute('href');
-    
-                    // Tampilkan konfirmasi SweetAlert
-                    Swal.fire({
-                        title: "Hapus Data!",
-                        text: "Apakah kamu yakin akan menghapus data ini?",
-                        icon: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#d33",
-                        cancelButtonColor: "#3085d6",
-                        confirmButtonText: "Ya, hapus itu!",
-                        cancelButtonText: "Tidak, batalkan"
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            // Jika konfirmasi "Ya", arahkan ke URL penghapusan
-                            window.location.href = url; // <-- URL akan diarahkan setelah konfirmasi
-                        }
-                    });
-                });
-            });
-        });
-    </script>
-    
-    
 @endsection

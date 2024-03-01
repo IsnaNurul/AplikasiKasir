@@ -162,7 +162,7 @@
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label" for="validationCustom04">No Telepon</label>
-                                <input class="form-control" id="validationCustom03" type="text" name="no_telepon" placeholder="62882xxxxxx" required="">
+                                <input class="form-control" id="validationCustom03" type="text" name="no_telepon" placeholder="Masukan no telepon" required="">
                                 <div class="valid-feedback">Looks good!</div>
                             </div>
                             <div class="col-md-12">

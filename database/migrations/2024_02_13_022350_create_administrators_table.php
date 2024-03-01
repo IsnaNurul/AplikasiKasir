@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('alamat');
             $table->string('no_telepon', 16);
             $table->unsignedInteger('pengguna_id');
-            $table->foreign('pengguna_id')->references('id_pengguna')->on('penggunas')->noActionOnDelete()->noActionOnUpdate();
+            $table->foreign('pengguna_id')->references('id_pengguna')->on('penggunas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

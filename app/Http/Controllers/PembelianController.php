@@ -21,12 +21,34 @@ class PembelianController extends Controller
         $data['pembelian'] = Pembelian::with('pengguna', 'detail_beli')->get();
         $data['produk'] = Produk::all();
         $data['kategori_produk'] = KategoriProduk::all();
+        // $data['detail']
+        // $data['jml_produk'] = DetailBeli::groupBy('pembelian_id')->get()->count();
+        // dd($data['jml_produk']);
 
         //Validasi Produk Expired
         // $tanggal = Carbon::now('Asia/Jakarta');
         // $data['produk'] = Produk::where('tanggal_kadaluarsa', '>', $tanggal)->get();
 
         return view('administrator.pembelian', $data);
+    }
+
+    public function edit(Request $req)
+    {
+        $validator = Validator::make($req->all(), [
+            'tanggal_beli' => 'required',
+            'supplier' => 'required',
+        ]);
+
+        $pembelian = Pembelian::where('id_pembelian', $req->id_pembelian)->update([
+            'tanggal_beli' => $req->tanggal_beli,
+            'supplier' => $req->supplier
+        ]);
+
+        if ($pembelian) {
+            return redirect('/pembelian')->with('success', 'Data berhasil diubah!');
+        } else {
+            return redirect()->back()->with('error', 'Data gagal diubah!');
+        }
     }
 
     public function add(Request $req)
@@ -36,6 +58,7 @@ class PembelianController extends Controller
             'pengguna_id' => 'required',
             'harga' => 'required',
             'jumlah_beli' => 'required',
+            'supplier' => 'required',
             'pembelian_id' => 'required',
             'produk_kode' => 'required',
         ]);
@@ -43,6 +66,7 @@ class PembelianController extends Controller
         $pembelian = Pembelian::create([
             'tanggal_beli' => $req->tanggal_beli,
             'pengguna_id' => Auth::user()->id_pengguna,
+            'supplier' => $req->supplier
         ]);
 
         $produk_kd = DetailBeli::where('produk_kode', $req->produk_kode)->where('pembelian_id', $pembelian->id_pembelian)->count();
@@ -55,7 +79,7 @@ class PembelianController extends Controller
                     'pembelian_id' => $pembelian->id_pembelian,
                     'produk_kode' => $req->produk_kode
                 ]);
-            } else{
+            } else {
                 $detail = DetailBeli::create([
                     'harga' => $req->harga,
                     'jumlah_beli' => $req->jumlah_beli,
@@ -66,11 +90,11 @@ class PembelianController extends Controller
 
             if ($detail) {
                 $dataProduk = Produk::where('kode_produk', $detail->produk_kode)->first();
-    
+
                 $produk = Produk::where('kode_produk', $detail->produk_kode)->update([
                     'stok' => $dataProduk->stok + $detail->jumlah_beli
                 ]);
-    
+
                 if ($produk) {
                     return redirect('/pembelian/detail/' . $pembelian->id_pembelian)->with('success', 'Data berhasil disimpan!');
                 }
@@ -97,6 +121,7 @@ class PembelianController extends Controller
         $data['detail_beli'] = DetailBeli::where('pembelian_id', $id_pembelian)->with('produk')->get();
         $data['produk'] = Produk::all();
         $data['kategori_produk'] = KategoriProduk::all();
+        $data['pembelian'] = Pembelian::where('id_pembelian', $id_pembelian)->first();
 
         Session::put('id_pembelian', $id_pembelian);
 
@@ -114,25 +139,61 @@ class PembelianController extends Controller
 
         $id_pembelian = Session::get('id_pembelian');
 
-        $detail = DetailBeli::create([
-            'harga' => $req->harga,
-            'jumlah_beli' => $req->jumlah_beli,
-            'pembelian_id' => $id_pembelian,
-            'produk_kode' => $req->produk_kode
-        ]);
+        $dataProdukDetail = DetailBeli::where('produk_kode', $req->produk_kode)->first();
 
-        if ($detail) {
-            $dataProduk = Produk::where('kode_produk', $detail->produk_kode)->first();
+        if ($dataProdukDetail) {
+            // Dapatkan jumlah_beli sebelumnya
+            $jumlahBeliSebelumnya = $dataProdukDetail->jumlah_beli;
+            // Hitung selisih antara jumlah_beli sebelumnya dan jumlah_beli baru
+            $selisihJumlahBeli = $req->jumlah_beli - $jumlahBeliSebelumnya;
 
-            $produk = Produk::where('kode_produk', $detail->produk_kode)->update([
-                'stok' => $dataProduk->stok + $detail->jumlah_beli
-            ]);
+            // Update jumlah_beli di detail beli
+            $updateDetailBeli = DetailBeli::where('produk_kode', $req->produk_kode)
+                ->update(['jumlah_beli' => $dataProdukDetail['jumlah_beli'] + $req->jumlah_beli]);
 
+            // Perbarui stok produk
+            $produk = Produk::where('kode_produk', $req->produk_kode)->first();
             if ($produk) {
-                return redirect('/pembelian/detail/' . $id_pembelian)->with('success', 'Data berhasil disimpan!');
+                $stokBaru = $produk->stok + $selisihJumlahBeli;
+                $updateStok = Produk::where('kode_produk', $req->produk_kode)
+                    ->update(['stok' => $stokBaru]);
+
+                if ($updateStok) {
+
+                    $produk->update([
+                        'stok' => $produk->stok + $req->jumlah_beli
+                    ]);
+                    // Lakukan apa yang diperlukan setelah berhasil memperbarui stok
+                    return redirect('/pembelian/detail/' . $id_pembelian)->with('success', 'Data berhasil disimpan!');
+                } else {
+                    // Tindakan jika gagal memperbarui stok produk
+                    return redirect()->back()->with('error', 'Gagal memperbarui stok produk!');
+                }
+            } else {
+                // Tindakan jika produk tidak ditemukan
+                return redirect()->back()->with('error', 'Produk tidak ditemukan!');
             }
         } else {
-            return redirect()->back()->with('error', 'Data gagal disimpan!');
+            $detail = DetailBeli::create([
+                'harga' => $req->harga,
+                'jumlah_beli' => $req->jumlah_beli,
+                'pembelian_id' => $id_pembelian,
+                'produk_kode' => $req->produk_kode
+            ]);
+
+            if ($detail) {
+                $dataProduk = Produk::where('kode_produk', $detail->produk_kode)->first();
+
+                $produk = Produk::where('kode_produk', $detail->produk_kode)->update([
+                    'stok' => $dataProduk->stok + $detail->jumlah_beli
+                ]);
+
+                if ($produk) {
+                    return redirect('/pembelian/detail/' . $id_pembelian)->with('success', 'Data berhasil disimpan!');
+                }
+            } else {
+                return redirect()->back()->with('error', 'Data gagal disimpan!');
+            }
         }
     }
 
