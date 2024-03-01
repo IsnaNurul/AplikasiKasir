@@ -2,6 +2,8 @@
 
 @if (auth()->user()->level_akses == 'petugas' || auth()->user()->level_akses == 'administrator')
     @section('style')
+        <!-- Select2 CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
         <style>
             .card .me-2 {
                 transition: transform 0.3s ease-in-out;
@@ -157,8 +159,9 @@
                                             <div class="customer-info block-section">
                                                 <h6>Informasi Pelanggan</h6>
                                                 <div class="input-block d-flex align-items-center">
-                                                    <div class="flex-grow-1 me-2 mt-2">
-                                                        <select name="pelanggan_id" class="form-select select" required>
+                                                    <div class="flex-grow-1 me-2 mt-3">
+                                                        <select id="selectPelanggan" name="pelanggan_id"
+                                                            class="form-select select select2" required>
                                                             @foreach ($pelanggan as $pelanggans)
                                                                 <option value="{{ $pelanggans->id_pelanggan }}">
                                                                     {{ $pelanggans->nama_pelanggan }}</option>
@@ -166,9 +169,11 @@
                                                         </select>
                                                     </div>
                                                     <a href="#" class="btn btn-primary btn-icon"
-                                                        data-bs-toggle="modal" data-bs-target="#modalPelanggan"><i
-                                                            data-feather="user-plus" class="feather-16"></i></a>
+                                                        data-bs-toggle="modal" data-bs-target="#modalPelanggan">
+                                                        <i data-feather="user-plus" class="feather-16"></i>
+                                                    </a>
                                                 </div>
+
                                                 <div class="input-block mt-2">
                                                     <div class="flex-grow-1 me-2 mt-2">
                                                         <select name="tipe_penjualan" class="form-select select">
@@ -196,16 +201,27 @@
                                                                     @php
                                                                         if ($details['diskon_produk_id'] != null) {
                                                                             $diskon = DB::table('diskon_produks')
-                                                                                ->where('id_diskon_produk', $details['diskon_produk_id'])
+                                                                                ->where(
+                                                                                    'id_diskon_produk',
+                                                                                    $details['diskon_produk_id'],
+                                                                                )
                                                                                 ->first();
                                                                             if ($diskon->jenis_diskon == 'persentase') {
-                                                                                $totalDiskon = $details['harga'] * ($diskon->nilai / 100) * $details['jumlah_produk'];
+                                                                                $totalDiskon =
+                                                                                    $details['harga'] *
+                                                                                    ($diskon->nilai / 100) *
+                                                                                    $details['jumlah_produk'];
                                                                             } else {
-                                                                                $totalDiskon = $diskon->nilai * $details['jumlah_produk'];
+                                                                                $totalDiskon =
+                                                                                    $diskon->nilai *
+                                                                                    $details['jumlah_produk'];
                                                                             }
 
                                                                             $diskonFinal += $totalDiskon;
-                                                                            $hargaFinal = $details['harga'] * $details['jumlah_produk'] - $totalDiskon;
+                                                                            $hargaFinal =
+                                                                                $details['harga'] *
+                                                                                    $details['jumlah_produk'] -
+                                                                                $totalDiskon;
                                                                         }
                                                                     @endphp
 
@@ -541,6 +557,20 @@
             @endif
         });
     </script> --}}
+
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+        });
+    </script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
     <script>
         function hitungUangKembali() {
             const jumlahBayarInput = document.getElementById("jumlah-bayar");

@@ -43,7 +43,7 @@
                             <table class="table" id="project-status">
                                 <thead>
                                     <tr>
-                                        <th style="width: 10%"> <span class="f-light f-w-600">ID Transaksi</span></th>
+                                        <th style="width: 10%"> <span class="f-light f-w-600">Transaction ID</span></th>
                                         <th style="width: 10%"> <span class="f-light f-w-600">Dibuat</span></th>
                                         <th style="width: 10%"> <span class="f-light f-w-600">Pelanggan</span></th>
                                         <th style="width: 60%"> <span class="f-light f-w-600">Produk</span></th>

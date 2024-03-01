@@ -54,17 +54,17 @@ class PenjualanController extends Controller
         }
     }
 
-
     public function riwayat()
     {
-           // Mengambil data pesanan
-           $data['penjualan'] = Penjualan::with(['pelanggan']);
-   
-           $data['pesanan'] = $data['penjualan']->get();
-   
-           foreach ($data['pesanan'] as $key => $value) {
-               $data['detail_jual'][$value->id_penjualan] = DetailJual::where('penjualan_id', $value->id_penjualan)->with('produk')->get();
-           }
+        // Mengambil data pesanan
+        $data['penjualan'] = Penjualan::with(['pelanggan']);
+        $data['kategori_produk'] = KategoriProduk::all();
+
+        $data['pesanan'] = $data['penjualan']->get();
+
+        foreach ($data['pesanan'] as $key => $value) {
+            $data['detail_jual'][$value->id_penjualan] = DetailJual::where('penjualan_id', $value->id_penjualan)->with('produk')->get();
+        }
 
         return view('administrator.penjualan', $data);
     }
@@ -221,6 +221,19 @@ class PenjualanController extends Controller
         $totalFinal = 0;
 
         $metode_pembayaran = $req->filled('jumlah_bayar') ? 'cash' : 'transfer';
+        if ($req->pelanggan_id == null) {
+            return back()->with('error', 'Harap masukan pelanggan!');
+        }
+
+        $carts = session()->get('carts');
+        foreach ($carts as $kode_produk => $data) {
+            $produk = Produk::where('kode_produk', $data['kode_produk'])->first();
+
+            // Memeriksa apakah stok yang ada dalam keranjang pembelian lebih besar dari stok yang tersedia dalam produk
+            if ($produk->stok < $data['jumlah_produk']) {
+                return back()->with('error', 'Stok produk ' . $produk->nama_produk . ' tidak mencukupi!');
+            }
+        }
 
         $penjualan = Penjualan::create([
             'kode_transaksi' => $transaksiId,
@@ -232,13 +245,22 @@ class PenjualanController extends Controller
             'tipe_penjualan' => $req->tipe_penjualan,
             'total_harga' => '',
             'jumlah_bayar' => $req->jumlah_bayar,
-            'rekening_tujuan' => $req->tipe_pembayaran
+            'rekening_tujuan' => $req->tipe_pembayaran,
+            'keterangan' => $req->keterangan
         ]);
 
         $carts = session()->get('carts');
 
         if ($penjualan) {
             foreach ($carts as $kode_produk => $details) {
+                $produk = Produk::where('kode_produk', $details['kode_produk'])->first();
+
+                // Memeriksa apakah stok yang ada dalam keranjang pembelian lebih besar dari stok yang tersedia dalam produk
+                if ($produk->stok < $details['jumlah_produk']) {
+                    return back()->with('error', 'Stok produk ' . $produk->nama_produk . ' tidak mencukupi!');
+                }
+
+                //diskon pembelian
                 $diskon = DB::table('diskon_produks')
                     ->where('id_diskon_produk', $details['diskon_produk_id'])
                     ->first();
@@ -257,8 +279,22 @@ class PenjualanController extends Controller
 
                 // Kurangi jumlah stok produk di database
                 $produk = Produk::where('kode_produk', $details['kode_produk'])->first();
+
                 $produk->stok -= $details['jumlah_produk'];
                 $produk->save();
+
+                // $jumlahBayar = $req->input('jumlah_bayar');
+
+                if ($metode_pembayaran == 'transfer') {
+                    $jumlahBayar = $hargaFinal;
+                } elseif ($metode_pembayaran == 'cash') {
+                    $jumlahBayar = $req->jumlah_bayar;
+                }
+
+                // Validasi jika uang bayar kurang dari total pembelian
+                if ($jumlahBayar < $hargaFinal) {
+                    return back()->with('error', 'Uang bayar kurang dari total pembelian!');
+                }
 
                 // Buat entri detail penjualan
                 $detailsPenjualan = new DetailJual();
@@ -270,6 +306,7 @@ class PenjualanController extends Controller
 
                 $updatePenjualan = Penjualan::where('id_penjualan', $penjualan->id_penjualan)->first();
                 $updatePenjualan->total_harga = $totalFinal;
+                $updatePenjualan->jumlah_bayar = $jumlahBayar;
                 $updatePenjualan->save();
             }
 
@@ -385,6 +422,7 @@ class PenjualanController extends Controller
 
         if ($penjualan) {
             foreach ($carts as $kode_produk => $details) {
+
                 $diskon = DB::table('diskon_produks')
                     ->where('id_diskon_produk', $details['diskon_produk_id'])
                     ->first();
@@ -421,7 +459,7 @@ class PenjualanController extends Controller
 
             session()->forget('carts');
 
-            return redirect('/penjualan')->with('success', 'Transaksi ditunda');
+            return redirect('/penjualan')->with('success', 'Transaksi disimpan');
         } else {
             return back()->with('error', 'Gagal menambahkan transaksi ke database!');
         }

@@ -66,4 +66,14 @@ class LaporanController extends Controller
         // Lakukan pengunduhan data sesuai dengan data yang telah diproses
         return Excel::download(new LaporanExport($pesanan, $detail_jual, $startDate, $endDate), 'laporan-penjualan.xlsx');
     }
+
+    public function invoice($id){
+        $data['penjualan'] = Penjualan::with(['pelanggan'])->where('id_penjualan', $id)->first();
+
+        $data['pesanan'] = $data['penjualan']->get();
+        $data['detail_jual'] = DetailJual::where('penjualan_id', $id)->with('produk')->get();
+
+        // dd($data);
+        return view('invoice', $data);
+    }
 }

@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col-6">
                     <h4>
-                        Pesanan Produk</h4>
+                        Penjualan Produk</h4>
                 </div>
                 <div class="col-6">
                     <ol class="breadcrumb">
@@ -23,7 +23,7 @@
                                     <use href="../assets/svg/icon-sprite.svg#stroke-home"></use>
                                 </svg></a></li>
                         <li class="breadcrumb-item">Apps</li>
-                        <li class="breadcrumb-item active">pengiriman Produk</li>
+                        <li class="breadcrumb-item active">Penjualan Produk</li>
                     </ol>
                 </div>
             </div>
@@ -36,11 +36,10 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="list-product-header">
-                            <div>
-                            </div>
+                            
                         </div>
                         <div class="table-responsive">
-                            <table class="table" id="">
+                            <table class="table" id="dataTable">
                                 <thead>
                                     <tr class="border-bottom">
                                         <th> <span class=" f-w-600">Nomor</span></th>
@@ -48,6 +47,7 @@
                                         <th> <span class=" f-w-600">Keterangan</span></th>
                                         <th> <span class=" f-w-600">Dibuat</span></th>
                                         <th> <span class=" f-w-600">Pelanggan</span></th>
+                                        <th> <span class=" f-w-600">Kategori</span></th>
                                         <th> <span class=" f-w-600">Produk</span></th>
                                         <th> <span class=" f-w-600">Qty</span></th>
                                         <th> <span class=" f-w-600">Harga Satuan</span></th>
@@ -86,6 +86,8 @@
                                                         $subtotal = $item->total_harga;
                                                     @endphp
                                                 @endif
+                                                <td>{{ $detail->produk ? $detail->produk->kategori_produk->nama_kategori : 'No Product' }}
+                                                </td>
                                                 <td>{{ $detail->produk ? $detail->produk->nama_produk : 'No Product' }}
                                                 </td>
                                                 <td>{{ $detail->jumlah_produk ? $detail->jumlah_produk : '0' }}</td>
@@ -97,10 +99,6 @@
                                                         {{ $item->total_harga ? number_format($item->total_harga, '0', ',', '.') : '-' }}
                                                     </td>
                                                 @endif
-                                                {{-- <td>
-                                                    <a class="btn btn-sm" onclick="window.print();" href="#"><i style="font-size: 20px"
-                                                        class="fa fa-file-excel-o"></i>Print</a>
-                                                </td> --}}
                                                 <td>
                                                     <div>
                                                         @if ($item->status == 'selesai')
@@ -141,6 +139,7 @@
 @endsection
 
 @section('script')
+
     <!-- Tambahkan fungsi JavaScript untuk animasi -->
     <script>
         // Jalankan animasi saat dokumen selesai dimuat

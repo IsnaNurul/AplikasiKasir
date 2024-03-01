@@ -105,7 +105,7 @@
                             <table class="table" id="">
                                 <thead>
                                     <tr class="border-bottom">
-                                        <th> <span class=" f-w-600">Nomor</span></th>
+                                        <th> <span class=" f-w-600">Transaction ID</span></th>
                                         <th> <span class=" f-w-600">Tanggal</span></th>
                                         <th> <span class=" f-w-600">Keterangan</span></th>
                                         <th> <span class=" f-w-600">Dibuat</span></th>
@@ -163,9 +163,11 @@
                                                     <a class="btn btn-sm" onclick="window.print();" href="#"><i style="font-size: 20px"
                                                         class="fa fa-file-excel-o"></i>Print</a>
                                                 </td> --}}
-                                                <td>
-                                                    <a href="/cetak">Cetak Invoice</a>
-                                                </td>
+                                                @if ($index === 0)
+                                                    <td rowspan="{{ $produkCount }}">
+                                                        <a href="/laporan-penjualan/invoice/{{ $item->id_penjualan }}">Cetak Invoice</a>
+                                                    </td>
+                                                @endif
                                             </tr>
                                         @endforeach
                                         @php

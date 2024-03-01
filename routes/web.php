@@ -112,7 +112,7 @@ Route::middleware(['statuslogin'])->group(function () {
     //laporan
     Route::get('/laporan-penjualan', [LaporanController::class, 'index']);
     Route::get('/laporan-penjualan/filterDate', [LaporanController::class, 'index']);
-    Route::get('/laporan-penjualan/export-pdf', [LaporanController::class, 'exportPdf'])->name('laporan-penjualan.export-pdf');
+    Route::get('/laporan-penjualan/invoice/{id}', [LaporanController::class, 'invoice']);
     Route::get('/laporan-penjualan/export-excel', [LaporanController::class, 'exportExcel'])->name('laporan-penjualan.export-excel');
 });
 
