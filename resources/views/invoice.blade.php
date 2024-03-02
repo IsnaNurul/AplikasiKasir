@@ -12,9 +12,9 @@
     <meta name="keywords"
         content="admin template, Cuba admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="author" content="pixelstrap">
-    <link rel="icon" href="../assets/images/favicon.png" type="image/x-icon">
-    <link rel="shortcut icon" href="../assets/images/favicon.png" type="image/x-icon">
-    <title>Cuba - Premium Admin Template</title>
+    <link rel="icon" href="../assets/images/pos.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../assets/images/pos.png" type="image/x-icon">
+    <title>LARANA POS - Kasir Pintar</title>
     <!-- Themify icon-->
     <link rel="stylesheet" type="text/css" href="../assets/css/vendors/themify.css">
     <!-- Google font-->
@@ -97,13 +97,13 @@
                     <table class="logo-wrappper" style="width: 100%;">
                         <tbody>
                             <tr>
-                                <td><img src="../../assets/images/logo/logo.png" alt="logo"><span
+                                <td><img src="../../assets/images/pos.png" style="width: 20%" alt="logo"><span
                                         style="color: #52526C;opacity: 0.8;display:block;margin-top: 10px;">202-555-0258</span>
                                 </td>
                                 <td class="address" style="text-align: right; color: #52526C;opacity: 0.8; width: 16%;">
                                     <span>
-                                        1982 Harvest Lane New York, NY12210
-                                        United State</span>
+                                        2024 Jawa Barat, NY12210
+                                        Tasikmalaya</span>
                                 </td>
                             </tr>
                         </tbody>

@@ -55,30 +55,36 @@ class PelangganController extends Controller
         } else {
             $data['kode_otomatis'] = Pengguna::latest()->value('id_pengguna');
             $transaksiId = $data['kode_otomatis'] + 1;
-            $akun = Pengguna::create([
-                'username' => $transaksiId . $req->nama_pelanggan,
-                'password' => bcrypt(12345),
-                'level_akses' => 'pelanggan'
+            // $akun = Pengguna::create([
+            //     'username' => $transaksiId . $req->nama_pelanggan,
+            //     'password' => bcrypt(12345),
+            //     'level_akses' => 'pelanggan'
+            // ]);
+
+            $pelanggan = Pelanggan::create([
+                'nama_pelanggan' => $req->nama_pelanggan,
+                'alamat' => $req->alamat,
+                'no_telepon' => $req->no_telepon,
+                'pengguna_id' => null
             ]);
 
-            if (!empty($akun)) {
-                $pelanggan = Pelanggan::create([
-                    'nama_pelanggan' => $req->nama_pelanggan,
-                    'alamat' => $req->alamat,
-                    'no_telepon' => $req->no_telepon,
-                    'pengguna_id' => $akun->id_pengguna
-                ]);
-
-                if ($pelanggan) {
+            if ($pelanggan) {
+                if (auth()->user()->level_akses == 'petugas') {
                     return redirect('/penjualan')->with('success', 'Data berhasil disimpan!');
+                    # code...
                 } else {
-                    return redirect()->back()->with('error', 'Data  gagal disimpan!');
+                    return redirect('/pengguna/pelanggan')->with('success', 'Data berhasil disimpan!');
+
                 }
+            } else {
+                return redirect()->back()->with('error', 'Data  gagal disimpan!');
             }
+            // if (!empty($akun)) {
+            // }
         }
     }
 
-    public function edit(Request $req)
+    public function edit(Request $req, $id_pelanggan)
     {
         $validator = Validator::make($req->all(), [
             'nama_pelanggan' => 'required',
@@ -88,17 +94,19 @@ class PelangganController extends Controller
             return back()->with('errors', $validator->messages()->all()[0])->withInput();
         }
 
-        $akun = Pengguna::where('id_pengguna', $req->pengguna_id)->update([
-            'username' => $req->username,
-            'password' => bcrypt($req->password),
-            'level_akses' => 'pelanggan'
-        ]);
+        // $akun = Pengguna::where('id_pengguna', $req->pengguna_id)->update([
+        //     'username' => $req->username,
+        //     'password' => bcrypt($req->password),
+        //     'level_akses' => 'pelanggan'
+        // ]);
 
-        $pelanggan = Pelanggan::where('pengguna_id', $req->pengguna_id)->update([
+        // dd($req);
+
+        $pelanggan = Pelanggan::where('id_pelanggan', $id_pelanggan)->update([
             'nama_pelanggan' => $req->nama_pelanggan,
             'alamat' => $req->alamat,
             'no_telepon' => $req->no_telepon,
-            'pengguna_id' => $req->pengguna_id
+            // 'pengguna_id' => $req->pengguna_id
         ]);
 
         if ($pelanggan) {

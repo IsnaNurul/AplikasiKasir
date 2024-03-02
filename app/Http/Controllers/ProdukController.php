@@ -39,6 +39,15 @@ class ProdukController extends Controller
         // Atur nilai kode produk
         $data['kd_produk'] = "PRD-" . $formattedNumber;
 
+        // Menghapus diskon jika melewati batas akhir
+        $currentDate = now();
+        foreach ($data['diskon_produk'] as $diskon) {
+            if ($diskon->berlaku_selesai < $currentDate) {
+                $diskon->delete();
+            }
+        }
+
+
         return view('administrator.produk', $data);
     }
 
@@ -85,6 +94,35 @@ class ProdukController extends Controller
         }
         return redirect()->back()->with('error', 'Data gagal disimpan!');
     }
+
+    public function editDiskon(Request $req)
+    {
+
+        $data = Produk::where('kode_produk', $req->kode_produk)->update([
+            'diskon_produk_id' => $req->diskon_produk_id,
+
+        ]);
+
+        if ($data) {
+            return redirect('/produk')->with('success', 'Diskon berhasil disimpan!');
+        }
+        return redirect()->back()->with('error', 'Data gagal disimpan!');
+    }
+
+    public function hapusDiskon(Request $req)
+    {
+
+        $data = Produk::where('kode_produk', $req->kode_produk)->update([
+            'diskon_produk_id' => null,
+
+        ]);
+
+        if ($data) {
+            return redirect('/produk')->with('success', 'Diskon berhasil dihapus dari produk!');
+        }
+        return redirect()->back()->with('error', 'Data gagal disimpan!');
+    }
+
 
     public function edit(Request $req)
     {

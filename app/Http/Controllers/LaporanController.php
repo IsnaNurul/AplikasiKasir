@@ -26,7 +26,7 @@ class LaporanController extends Controller
                 ->whereDate('tanggal_jual', '<=', $data['endDate']);
         }
 
-        $data['pesanan'] = $data['penjualan']->get();
+        $data['pesanan'] = $data['penjualan']->orderBy('tanggal_jual', 'desc')->get();
 
         foreach ($data['pesanan'] as $key => $value) {
             $data['detail_jual'][$value->id_penjualan] = DetailJual::where('penjualan_id', $value->id_penjualan)->with('produk')->get();
@@ -39,24 +39,27 @@ class LaporanController extends Controller
     {
         $startDate = $request->start_date ?? null;
         $endDate = $request->end_date ?? null;
+        // dd($startDate, $endDate);
 
         $pesananQuery = Penjualan::where('status', 'selesai');
 
         // Jika terdapat filter tanggal, tambahkan kondisi ke query
         if ($startDate != null && $endDate != null) {
-            $pesananQuery->whereBetween('tanggal_jual', [$startDate, $endDate]);
+          
+            $pesananQuery->whereDate('tanggal_jual', '>=', $startDate)
+            ->whereDate('tanggal_jual', '<=', $endDate);;
         }
 
         // dd($startDate,$endDate);
 
         // Ambil pesanan sesuai dengan query yang telah dibuat
-        $pesanan = $pesananQuery->with('pelanggan')->get();
+        $pesanan = $pesananQuery->with('pelanggan')->orderBy('tanggal_jual', 'desc')->get();
 
         // Cek apakah ada data penjualan
         if ($pesanan->isEmpty()) {
             return redirect()->back()->with('error', 'Tidak ada data penjualan yang tersedia.');
         }
-
+        
         $detail_jual = [];
 
         foreach ($pesanan as $key => $value) {

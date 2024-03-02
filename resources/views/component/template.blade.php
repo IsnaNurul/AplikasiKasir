@@ -13,9 +13,9 @@
     <meta name="keywords"
         content="admin template, Cuba admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="author" content="pixelstrap">
-    <link rel="icon" href="../../assets/images/favicon.png" type="image/x-icon">
-    <link rel="shortcut icon" href="../../assets/images/favicon.png" type="image/x-icon">
-    <title>Cuba - Premium Admin Template</title>
+    <link rel="icon" href="../../assets/images/pos.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../../assets/images/pos.png" type="image/x-icon">
+    <title>LARANA POS - Kasir Pintar</title>
     <!-- Google font-->
     <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap"
         rel="stylesheet">
@@ -73,8 +73,8 @@
             <div class="header-wrapper row m-0">
                 <div class="header-logo-wrapper col-auto p-0">
                     <div class="logo-wrapper"><a href="index.html"><img class="img-fluid for-light"
-                                src="../../assets/images/logo4.png" alt=""><img class="img-fluid for-dark"
-                                src="../../assets/images/logo4.png" alt=""></a></div>
+                                src="../../assets/images/pos.png" style="width: 100pxpx"><img class="img-fluid for-dark"
+                                src="../../assets/images/pos.png" alt=""></a></div>
                     <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle"
                             data-feather="align-center"></i></div>
                 </div>
@@ -91,7 +91,7 @@
                 <div class="nav-right col-xxl-7 col-xl-6 col-md-7 col-8 pull-right right-header p-0 ms-auto">
                     <ul class="nav-menus">
 
-                        <li> <span class="header-search">
+                        {{-- <li> <span class="header-search">
                                 <svg>
                                     <use href="../../assets/svg/icon-sprite.svg#search"></use>
                                 </svg></span></li>
@@ -240,7 +240,7 @@
                                     <li><a class="f-w-700" href="#">Check all</a></li>
                                 </ul>
                             </div>
-                        </li>
+                        </li> --}}
                         <li class="profile-nav onhover-dropdown pe-0 py-0">
                             <div class="media profile-media"><img class="b-r-10"
                                     src="../../assets/images/dashboard/profile.png" alt="">
@@ -250,7 +250,7 @@
                                 </div>
                             </div>
                             <ul class="profile-dropdown onhover-show-div">
-                                <li><a href="sign-up.html"><i data-feather="user"></i><span>Account </span></a></li>
+                                {{-- <li><a href="sign-up.html"><i data-feather="user"></i><span>Account </span></a></li> --}}
                                 <li><a href="javascript:void(0)" onclick="confirmLogout()"><i data-feather="log-in">
                                         </i><span>Logout</span></a></li>
                             </ul>

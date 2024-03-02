@@ -18,7 +18,7 @@ class PembelianController extends Controller
     //
     public function index()
     {
-        $data['pembelian'] = Pembelian::with('pengguna', 'detail_beli')->get();
+        $data['pembelian'] = Pembelian::with('pengguna', 'detail_beli')->orderBy('tanggal_beli', 'desc')->get();
         $data['produk'] = Produk::all();
         $data['kategori_produk'] = KategoriProduk::all();
         // $data['detail']

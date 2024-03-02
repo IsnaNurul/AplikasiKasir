@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-6">
                     <h4>
-                        Produk</h4>
+                        Diskon Produk</h4>
                 </div>
                 <div class="col-6">
                     <ol class="breadcrumb">

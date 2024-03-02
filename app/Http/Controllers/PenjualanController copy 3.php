@@ -316,7 +316,7 @@ class PenjualanController extends Controller
 
             session()->forget('carts');
 
-            return redirect('/laporan-penjualan/invoice/'. $transaksiId)->with('success', 'Transaksi berhasil');
+            return redirect('/penjualan')->with('success', 'Transaksi berhasil');
         } else {
             return back()->with('error', 'Gagal menambahkan transaksi ke database!');
         }

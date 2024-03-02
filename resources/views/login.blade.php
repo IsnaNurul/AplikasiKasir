@@ -51,7 +51,7 @@
                     <div>
                         <div class="login-main">
                             <div class="d-flex justify-content-center mb-4">
-                              <img class="img-fluid for-light" style="width: 45%" src="../assets/images/logo4.png" alt="">
+                              <img class="img-fluid for-light" style="width: 45%" src="../assets/images/pos.png" alt="">
                             </div>
                             <form class="theme-form" action="/login" method="POST">
                                 @csrf

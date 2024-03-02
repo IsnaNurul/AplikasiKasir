@@ -44,7 +44,7 @@
                                 <tr> 
                                     <th> <span class="f-light f-w-600">No</span></th>
                                     <th> <span class="f-light f-w-600">Nama pelanggan</span></th>
-                                    <th> <span class="f-light f-w-600">Username</span></th>
+                                    {{-- <th> <span class="f-light f-w-600">Username</span></th> --}}
                                     <th> <span class="f-light f-w-600">No Telepon</span></th>
                                     <th> <span class="f-light f-w-600">Alamat</span></th>
                                     <th> <span class="f-light f-w-600">Action</span></th>
@@ -62,9 +62,9 @@
                                             <p>{{ $item->nama_pelanggan }}</p>
                                             </div>
                                         </td>
-                                        <td> 
+                                        {{-- <td> 
                                             <p class="f-light">{{ $item->pengguna->username }}</p>
-                                        </td>
+                                        </td> --}}
                                         <td> 
                                             <p class="f-light">{{ $item->no_telepon }}</p>
                                         </td>
@@ -85,9 +85,9 @@
                                                 <div class="modal-toggle-wrapper social-profile text-start dark-sign-up">
                                                     <h3 class="modal-header justify-content-center border-0">Mengubah pelanggan</h3>
                                                     <div class="modal-body p-4">
-                                                        <form action="/pengguna/pelanggan/edit/{{ $item->pengguna_id }}" method="post" class="row g-3 needs-validation" novalidate="">
+                                                        <form action="/pengguna/pelanggan/edit/{{ $item->id_pelanggan }}" method="post" class="row g-3 needs-validation" novalidate="">
                                                             @csrf
-                                                            <h6 class="mb-3">Akun</h6>
+                                                            {{-- <h6 class="mb-3">Akun</h6>
                                                             <div class="col-md-12 mb-3">
                                                                 <label class="form-label" for="validationCustom01">Username</label>
                                                                 <input class="form-control" id="validationCustom01" type="text" name="username" placeholder="Masukan username" value="{{ $item->pengguna->username }}" required='true'>
@@ -97,7 +97,7 @@
                                                                 <label class="form-label" for="validationCustom02">Password</label>
                                                                 <input class="form-control" id="validationCustom02" type="password" name="password"  placeholder="Kosongkan jika tidak akan mengubah password">
                                                                 <div class="valid-feedback">Looks good!</div>
-                                                            </div>
+                                                            </div> --}}
                                                             <h6 class="mb-2">Data Diri</h6>
                                                             <div class="col-md-12 mb-3">
                                                                 <label class="form-label" for="validationCustom03">Nama Lengkap</label>
@@ -143,7 +143,7 @@
                     <div class="modal-body p-4 mt-2">
                         <form action="/pengguna/pelanggan/add" method="post" class="row g-3 needs-validation" novalidate>
                             @csrf
-                            <h6 class="">Akun</h6>
+                            {{-- <h6 class="">Akun</h6>
                             <div class="col-md-12">
                                 <label class="form-label" for="validationCustom01">Username</label>
                                 <input class="form-control" id="validationCustom01" type="text" name="username" placeholder="Masukan username" required="">
@@ -153,7 +153,7 @@
                                 <label class="form-label" for="validationCustom02">Password</label>
                                 <input class="form-control" id="validationCustom02" type="password" name="password"  placeholder="*******" required="">
                                 <div class="valid-feedback">Looks good!</div>
-                            </div>
+                            </div> --}}
                             <h6 class="">Data Diri</h6>
                             <div class="col-md-12">
                                 <label class="form-label" for="validationCustom03">Nama Lengkap</label>
@@ -162,7 +162,7 @@
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label" for="validationCustom04">No Telepon</label>
-                                <input class="form-control" id="validationCustom03" type="text" name="no_telepon" placeholder="62882xxxxxx" required="">
+                                <input class="form-control" id="validationCustom03" type="text" name="no_telepon" placeholder="Masukan no telepeon" required="">
                                 <div class="valid-feedback">Looks good!</div>
                             </div>
                             <div class="col-md-12">

@@ -42,7 +42,7 @@
                             <table class="table" id="dataTable">
                                 <thead>
                                     <tr class="border-bottom">
-                                        <th> <span class=" f-w-600">Nomor</span></th>
+                                        <th> <span class=" f-w-600">Transaksi Id</span></th>
                                         <th> <span class=" f-w-600">Tanggal</span></th>
                                         <th> <span class=" f-w-600">Keterangan</span></th>
                                         <th> <span class=" f-w-600">Dibuat</span></th>

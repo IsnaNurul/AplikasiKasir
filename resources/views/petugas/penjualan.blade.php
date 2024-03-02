@@ -90,7 +90,7 @@
                             <ul class="files">
                                 <div class="row">
                                     @foreach ($produk as $item)
-                                        <div class="card me-2" style="width: 14rem; height:20rem"
+                                        <div class="card me-2" style="width: 14rem; height:25rem"
                                             data-id="{{ $item->kode_produk }}">
                                             @if ($item->diskon_produk_id)
                                                 @if ($item->diskon_produk->jenis_diskon == 'persentase')
@@ -101,7 +101,7 @@
                                                 @endif
                                             @endif
                                             @if ($item->gambar_produk)
-                                                <img class="card-img-top" style="height: 130px"
+                                                <img class="card-img-top" style="height: 200px"
                                                     src="{{ asset('storage/' . $item->gambar_produk) }}" alt="">
                                             @endif
                                             <div class="card-body">
@@ -116,7 +116,7 @@
                                                                 style="color: darkgray; font-size:10px">{{ 'Rp. ' . number_format($item->harga) }}</del>
                                                         </a>
                                                     @else
-                                                        <a href="#" class="harga-produk"
+                                                        <a href="#" class="harga-produk mb-4"
                                                             style="width: 70%;  font-size:15px"><b>{{ 'Rp. ' . number_format($item->harga) }}</b>
                                                         </a>
                                                     @endif
@@ -352,8 +352,7 @@
                                                                         <h6 class="mb-2">Uang Bayar</h6>
                                                                         <div class="input-group">
                                                                             <input class="form-control" type="number"
-                                                                                name="jumlah_bayar"
-                                                                                placeholder="Uang Bayar" id="jumlah-bayar"
+                                                                                name="jumlah_bayar" id="jumlah-bayar"
                                                                                 onchange="hitungUangKembali()" required>
                                                                         </div>
                                                                         <h6 class="mb-2">Uang Kembali</h6>
@@ -411,19 +410,6 @@
                             <form action="/pengguna/pelanggan/add" method="post" class="row g-3 needs-validation"
                                 novalidate>
                                 @csrf
-                                <h6 class="">Akun</h6>
-                                <div class="col-md-12">
-                                    <label class="form-label" for="validationCustom01">Username</label>
-                                    <input class="form-control" id="validationCustom01" type="text" name="username"
-                                        placeholder="Masukan username">
-                                    <div class="valid-feedback">Looks good!</div>
-                                </div>
-                                <div class="col-md-12">
-                                    <label class="form-label" for="validationCustom02">Password</label>
-                                    <input class="form-control" id="validationCustom02" type="password" name="password"
-                                        placeholder="*******">
-                                    <div class="valid-feedback">Looks good!</div>
-                                </div>
                                 <h6 class="">Data Diri</h6>
                                 <div class="col-md-12">
                                     <label class="form-label" for="validationCustom03">Nama Lengkap</label>

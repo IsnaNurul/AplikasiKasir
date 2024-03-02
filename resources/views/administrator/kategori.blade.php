@@ -179,11 +179,11 @@
 @section('script')
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-    @if (Session::has('success'))
+    {{-- @if (Session::has('success'))
         <script>
             swal("Success", "{{ Session::get('success') }}", "success");
         </script>
-    @endif
+    @endif --}}
 
     <!-- Plugins JS start-->
     <script src="../assets/js/sidebar-menu.js"></script>

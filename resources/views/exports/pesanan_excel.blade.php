@@ -27,7 +27,7 @@
     <table>
         <thead>
             <tr>
-                <th>Nomor</th>
+                <th>Transaksi Id</th>
                 <th>Tanggal</th>
                 <th>Keterangan</th>
                 <th>Dibuat</th>

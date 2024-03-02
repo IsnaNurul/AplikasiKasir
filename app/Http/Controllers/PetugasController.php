@@ -31,6 +31,12 @@ class PetugasController extends Controller
         if ($validator->fails()) {
             return back()->with('errors', $validator->messages()->all()[0])->withInput();
         }
+        
+        $akun = Pengguna::where('username', $req->username)->first();
+
+        if ($akun) {
+            return back()->with('error', 'Username sudah terdaftar');
+        }
 
         $akun = Pengguna::create([
             'username' => $req->username,
@@ -66,9 +72,18 @@ class PetugasController extends Controller
             return back()->with('errors', $validator->messages()->all()[0])->withInput();
         }
 
+        // $id = auth()->user()->id_pengguna;
+        $pengguna = Pengguna::where('id_pengguna', $req->pengguna_id)->first();
+
+        if ($req->password != null) {
+            $password = bcrypt($req->password);
+        } else {
+            $password = $pengguna->password;
+        }
+
         $akun = Pengguna::where('id_pengguna', $req->pengguna_id)->update([
             'username' => $req->username,
-            'password' => bcrypt($req->password),
+            'password' => $password,
             'level_akses' => 'petugas'
         ]);
 

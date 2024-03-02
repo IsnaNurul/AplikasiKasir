@@ -50,7 +50,7 @@ Route::middleware(['statuslogin'])->group(function () {
     //Pelanggan
     Route::get('/pengguna/pelanggan', [PelangganController::class, 'index']);
     Route::post('/pengguna/pelanggan/add', [PelangganController::class, 'add']);
-    Route::post('/pengguna/pelanggan/edit/{pengguna_id}', [PelangganController::class, 'edit']);
+    Route::post('/pengguna/pelanggan/edit/{id_pelanggan}', [PelangganController::class, 'edit']);
     Route::get('/pengguna/pelanggan/hapus/{pengguna}', [PelangganController::class, 'hapus']);
 
 
@@ -65,7 +65,9 @@ Route::middleware(['statuslogin'])->group(function () {
     Route::get('/produk/create', [ProdukController::class, 'create']);
     Route::post('/produk/add', [ProdukController::class, 'add']);
     Route::post('/produk/edit/{kode_produk}', [ProdukController::class, 'edit']);
+    Route::post('/produk/editDiskon/{kode_produk}', [ProdukController::class, 'editDiskon']);
     Route::get('/produk/hapus/{kode_produk}', [ProdukController::class, 'hapus']);
+    Route::get('/produk/hapusDiskon/{kode_produk}', [ProdukController::class, 'hapus']);
 
     //diskon produk
     Route::get('/diskon-produk', [DiskonController::class, 'index']);

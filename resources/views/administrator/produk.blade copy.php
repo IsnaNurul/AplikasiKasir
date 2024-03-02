@@ -47,15 +47,13 @@
                                 <thead>
                                     <tr>
                                         <th> <span class="f-light f-w-600">No</span></th>
-                                        <th> <span class="f-light f-w-600">Kode produk</span></th>
                                         <th> <span class="f-light f-w-600">Nama produk</span></th>
+                                        <th> <span class="f-light f-w-600">Kode produk</span></th>
                                         <th> <span class="f-light f-w-600">Harga</span></th>
                                         <th> <span class="f-light f-w-600">Stok</span></th>
                                         <th> <span class="f-light f-w-600">Kategori</span></th>
                                         <th> <span class="f-light f-w-600">Diskon</span></th>
-                                        @if (auth()->user()->level_akses == 'administrator')
-                                            <th> <span class="f-light f-w-600">Action</span></th>
-                                        @endif
+                                        <th> <span class="f-light f-w-600">Action</span></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -66,20 +64,19 @@
                                             </td>
                                             <td>
                                                 <div class="product-names">
-                                                    <p>{{ $item->kode_produk }}</p>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="product-names">
-                                                    <img class="img-fluid" style="width: 80px; height: 80px;"
+                                                    <img class="img-fluid" style="width: 80px"
                                                         src="{{ asset('storage/' . $item->gambar_produk) }}" alt="laptop">
                                                     {{-- <div class="light-product-box"></div> --}}
                                                     <p>{{ $item->nama_produk }}</p>
                                                 </div>
                                             </td>
                                             <td>
-                                                <p class="f-light">{{ 'Rp. ' . number_format($item->harga, '0', ',', '.') }}
-                                                </p>
+                                                <div class="product-names">
+                                                    <p>{{ $item->kode_produk }}</p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <p class="f-light">{{ 'Rp. ' . number_format($item->harga, '0', ',', '.') }}</p>
                                             </td>
                                             <td>
                                                 <p class="f-light">{{ $item->stok }}</p>
@@ -97,49 +94,42 @@
                                             </td>
                                             <td>
                                                 @if (!empty($item->diskon_produk_id))
-                                                    <span class="badge badge-light-success">{{ $item->diskon_produk->jenis_diskon == 'persentase' ? $item->diskon_produk->nilai . '%' : 'Rp. ' . number_format($item->diskon_produk->nilai) }}</span>
+                                                    <span
+                                                        class="badge badge-light-success">{{ $item->diskon_produk->jenis_diskon == 'persentase' ? $item->diskon_produk->nilai . '%' : 'Rp. ' . number_format($item->diskon_produk->nilai) }}</span>
 
                                                     {{-- <button class="btn btn-pill btn-outline-success btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Lihat Diskon">Diskon</button> --}}
                                                 @else
-                                                    @if (auth()->user()->level_akses == 'petugas')
-                                                        <span class="badge badge-light-secondary" data-bs-toggle="modal"
-                                                            data-bs-target="#modalEdit{{ $item->kode_produk }}"
-                                                            data-whatever="@getbootstrap">Tidak ada diskon</span>
-                                                    @elseif (auth()->user()->level_akses == 'administrator')
-                                                        <span class="badge badge-light-secondary">Tidak ada diskon</span>
-                                                    @endif
+                                                    <span class="badge badge-light-secondary" data-bs-toggle="modal"
+                                                    data-bs-target="#modalEdit{{ $item->kode_produk }}"
+                                                    data-whatever="@getbootstrap">Tidak ada diskon</span>
 
                                                     {{-- <button class="btn btn-pill btn-outline-success btn-sm" disabled type="button" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Lihat Diskon">Diskon</button> --}}
                                                 @endif
 
                                             </td>
-                                            @if (auth()->user()->level_akses == 'administrator')
-                                                <td>
-                                                    <div class="product-action">
+                                            <td>
+                                                <div class="product-action">
+                                                    <a class="delete-item2"
+                                                            href="/produk/hapusDiskon/{{ $item->kode_produk }}"><i
+                                                                class="fa fa-trash-o text-danger" data-bs-toggle="tooltip"
+                                                                data-bs-placement="top" data-bs-title="Hapus"></i></a>
+                                                                 <a class="hapus-item"
+                                                            href="/produk/edit/{{ $item->kode_produk }}"><i
+                                                                class="fa fa-pencil-o text-primary" data-bs-toggle="tooltip"
+                                                                data-bs-placement="top" data-bs-title="Hapus"></i></a>
+                                                    @if (auth()->user()->level_akses == 'administrator')
+                                                    <a class="hapus-item"
+                                                            href="/produk/edit/{{ $item->kode_produk }}"><i
+                                                                class="fa fa-pencil-o text-primary" data-bs-toggle="tooltip"
+                                                                data-bs-placement="top" data-bs-title="Hapus"></i></a>
                                                         <a class="hapus-item"
                                                             href="/produk/hapus/{{ $item->kode_produk }}"><i
                                                                 class="fa fa-trash-o text-danger" data-bs-toggle="tooltip"
                                                                 data-bs-placement="top" data-bs-title="Hapus"></i></a>
-                                                        <a href="#" class="me-3 edit-admin" data-bs-toggle="modal"
-                                                            data-bs-target="#modalEdit{{ $item->kode_produk }}"
-                                                            data-whatever="@getbootstrap"><i class="fa fa-pencil-square-o"
-                                                                data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                data-bs-title="Edit"></i></a>
-                                                    </div>
-                                                </td>
-                                            @elseif (auth()->user()->level_akses == 'petugas')
-                                            {{-- <td>
-                                                <a class="delete-item2"
-                                                    href="/produk/hapusDiskon/{{ $item->kode_produk }}"><i
-                                                        class="fa fa-trash-o text-danger" data-bs-toggle="tooltip"
-                                                        data-bs-placement="top" data-bs-title="Hapus"></i></a>
-                                                <a class="delete-item2"
-                                                    href="/produk/hapusDiskon/{{ $item->kode_produk }}"><i
-                                                        class="fa fa-trash-o text-danger" data-bs-toggle="tooltip"
-                                                        data-bs-placement="top" data-bs-title="Hapus"></i></a>
 
-                                            </td> --}}
-                                            @endif
+                                                    @endif
+                                                </div>
+                                            </td>
                                         </tr>
                                         @if (auth()->user()->level_akses == 'administrator')
                                             {{-- Modal Edit --}}
@@ -161,8 +151,7 @@
 
                                                                         <div class="col-md-12 mb-3">
                                                                             <label class="form-label"
-                                                                                for="validationCustom01">Kode
-                                                                                Produk</label>
+                                                                                for="validationCustom01">Kode Produk</label>
                                                                             <input class="form-control"
                                                                                 id="validationCustom01" type="text"
                                                                                 name="kode_produk"
@@ -203,30 +192,20 @@
                                                                                 baru </a>
                                                                         </div>
                                                                         <div class="col-md-7 mb-3">
-                                                                            <label class="form-label"
-                                                                                for="validationCustom03">Harga</label>
-                                                                            <input class="form-control"
-                                                                                value="{{ $item->harga }}"
-                                                                                id="validationCustom03" type="number"
-                                                                                name="harga"
-                                                                                placeholder="Masukan harga produk"
-                                                                                required="">
+                                                                            <label class="form-label" for="validationCustom03">Harga</label>
+                                                                            <input class="form-control" value="{{ $item->harga }}" id="validationCustom03" type="number" name="harga"
+                                                                                placeholder="Masukan harga produk" required="">
                                                                             <div class="valid-feedback">Looks good!</div>
                                                                         </div>
                                                                         <div class="col-md-3 mb-3">
-                                                                            <label class="form-label"
-                                                                                for="validationCustom03">Stok</label>
-                                                                            <input class="form-control"
-                                                                                value="{{ $item->stok }}"
-                                                                                id="validationCustom03" type="number"
-                                                                                name="stok" placeholder=""
-                                                                                required="">
+                                                                            <label class="form-label" for="validationCustom03">Stok</label>
+                                                                            <input class="form-control" value="{{ $item->stok }}" id="validationCustom03" type="number" name="stok"
+                                                                                placeholder="" required="">
                                                                             <div class="valid-feedback">Looks good!</div>
                                                                         </div>
                                                                         <div class="col-md-2 mb-3">
                                                                             <div>
-                                                                                <label for=""
-                                                                                    class="mt-3"></label>
+                                                                                <label for="" class="mt-3"></label>
                                                                                 <p>Porsi</p>
                                                                             </div>
                                                                         </div>
@@ -284,8 +263,7 @@
                                                                                 Produk</label>
                                                                             <select class="form-select"
                                                                                 name="diskon_produk_id" id="">
-                                                                                <option value="">Pilih Diskon
-                                                                                </option>
+                                                                                <option value="">Pilih Diskon</option>
                                                                                 @foreach ($diskon_produk as $value)
                                                                                     <option
                                                                                         value="{{ $value->id_diskon_produk }}"
@@ -450,6 +428,33 @@
                     Swal.fire({
                         title: "Hapus Data!",
                         text: "Apakah kamu yakin akan menghapus data ini?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#d33",
+                        cancelButtonColor: "#3085d6",
+                        confirmButtonText: "Ya, hapus itu!",
+                        cancelButtonText: "Tidak, batalkan"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Jika konfirmasi "Ya", arahkan ke URL penghapusan
+                            window.location.href =
+                                url; // <-- URL akan diarahkan setelah konfirmasi
+                        }
+                    });
+                });
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButtons = document.querySelectorAll('.delete-item2');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const url = this.getAttribute('href');
+
+                    // Tampilkan konfirmasi SweetAlert
+                    Swal.fire({
+                        title: "Hapus Data!",
+                        text: "Apakah kamu yakin akan menghapus diskon ini?",
                         icon: "warning",
                         showCancelButton: true,
                         confirmButtonColor: "#d33",

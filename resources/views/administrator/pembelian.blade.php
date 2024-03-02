@@ -202,7 +202,7 @@
                                             <option value="">Pilih Produk</option>
                                             @foreach ($produk as $item)
                                                 <option value="{{ $item->kode_produk }}">
-                                                    {{ $item->kode_produk . ' - ' . $item->nama_produk }}</option>
+                                                    {{ $item->kode_produk . ' - ' . $item->nama_produk . ' - '. $item->harga}}</option>
                                             @endforeach
                                         </select>
                                         <div class="valid-feedback">Looks good!</div>

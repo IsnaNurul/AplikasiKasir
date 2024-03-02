@@ -81,12 +81,14 @@
                                         @endphp --}}
                                         @if (Request()->is('laporan-penjualan'))
                                             <a href="{{ route('laporan-penjualan.export-excel', ['start_date' => null, 'end_date' => null]) }}"
-                                                class="btn btn-success float-middle float-end mt-n1 ms-2"><i
-                                                    class="fa fa-file-excel-o"></i>Export</a>
+                                                class="btn btn-success float-middle float-end mt-n1 ms-2"
+                                                ata-bs-toggle="tooltip" data-bs-placement="top"
+                                                data-bs-title="Export Excel"><i class="fa fa-file-excel-o"></i>Export</a>
                                         @else
                                             <a href="{{ route('laporan-penjualan.export-excel', ['start_date' => $startDate, 'end_date' => $endDate]) }}"
-                                                class="btn btn-success float-middle float-end mt-n1 ms-2"><i
-                                                    class="fa fa-file-excel-o"></i>Export</a>
+                                                class="btn btn-success float-middle float-end mt-n1 ms-2"
+                                                ata-bs-toggle="tooltip" data-bs-placement="top"
+                                                data-bs-title="Export Excel"><i class="fa fa-download"></i>Excel</a>
                                         @endif
                                         <button type="submit" onclick="validateForm()"
                                             class="btn btn-primary ms-2 float-middle float-end mt-n1">Terapkan</button>
@@ -105,7 +107,7 @@
                             <table class="table" id="">
                                 <thead>
                                     <tr class="border-bottom">
-                                        <th> <span class=" f-w-600">Transaction ID</span></th>
+                                        <th> <span class=" f-w-600">Transaksi Id</span></th>
                                         <th> <span class=" f-w-600">Tanggal</span></th>
                                         <th> <span class=" f-w-600">Keterangan</span></th>
                                         <th> <span class=" f-w-600">Dibuat</span></th>
@@ -140,7 +142,8 @@
                                                         {{ $item->tipe_penjualan }}, <br>
                                                         {{ $item->metode_pembayaran }}
                                                     </td>
-                                                    <td rowspan="{{ $produkCount }}">{{ $item->pengguna->username }}</td>
+                                                    <td rowspan="{{ $produkCount }}">{{ $item->pengguna->username }}
+                                                    </td>
                                                     <td rowspan="{{ $produkCount }}">
                                                         {{ $item->pelanggan_id ? $item->pelanggan->nama_pelanggan : '-' }}
                                                     </td>
@@ -165,7 +168,8 @@
                                                 </td> --}}
                                                 @if ($index === 0)
                                                     <td rowspan="{{ $produkCount }}">
-                                                        <a href="/laporan-penjualan/invoice/{{ $item->id_penjualan }}" target="_blank">Lihat Invoice</a>
+                                                        <a href="/laporan-penjualan/invoice/{{ $item->id_penjualan }}"
+                                                            target="_blank">Lihat Invoice</a>
                                                     </td>
                                                 @endif
                                             </tr>
