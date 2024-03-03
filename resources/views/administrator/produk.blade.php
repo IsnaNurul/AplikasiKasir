@@ -290,7 +290,7 @@
                                                                                     <option
                                                                                         value="{{ $value->id_diskon_produk }}"
                                                                                         {{ $value->id_diskon_produk == $item->diskon_produk_id ? 'selected' : '' }}>
-                                                                                        {{ $value->nama_diskon }}
+                                                                                        {{ $value->nama_diskon . ' - '. $value->nilai . ' - '. $value->jenis_diskon}}
                                                                                     </option>
                                                                                 @endforeach
                                                                             </select>

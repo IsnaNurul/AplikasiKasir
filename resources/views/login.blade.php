@@ -12,9 +12,9 @@
     <meta name="keywords"
         content="admin template, Cuba admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="author" content="pixelstrap">
-    <link rel="icon" href="../assets/images/favicon.png" type="image/x-icon">
-    <link rel="shortcut icon" href="../assets/images/favicon.png" type="image/x-icon">
-    <title>Cuba - Premium Admin Template</title>
+    <link rel="icon" href="../assets/images/pos.png" type="image/x-icon">
+    {{-- <link rel="shortcut icon" href="../assets/images/favicon.png" type="image/x-icon"> --}}
+    <title>LARANA POS - Kasir Pintar</title>
     <!-- Google font-->
     <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap"
         rel="stylesheet">
@@ -55,7 +55,7 @@
                             </div>
                             <form class="theme-form" action="/login" method="POST">
                                 @csrf
-                                <h4 class="text-center">LOGIN</h4>
+                                {{-- <h4 class="text-center">LOGIN</h4> --}}
                                 <div class="form-group">
                                     <label class="col-form-label">Username</label>
                                     <input class="form-control" name="username" type="text" required=""

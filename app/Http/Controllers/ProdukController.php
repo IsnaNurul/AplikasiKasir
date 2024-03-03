@@ -37,15 +37,15 @@ class ProdukController extends Controller
         $formattedNumber = str_pad($lastProductNumber, 3, '0', STR_PAD_LEFT);
 
         // Atur nilai kode produk
-        $data['kd_produk'] = "PRD-" . $formattedNumber;
+        $data['kd_produk'] = "PRD-".$formattedNumber;
 
         // Menghapus diskon jika melewati batas akhir
-        $currentDate = now();
-        foreach ($data['diskon_produk'] as $diskon) {
-            if ($diskon->berlaku_selesai < $currentDate) {
-                $diskon->delete();
-            }
-        }
+        // $currentDate = now();
+        // foreach ($data['diskon_produk'] as $diskon) {
+        //     if ($diskon->berlaku_selesai < $currentDate) {
+        //         $diskon->delete();
+        //     }
+        // }
 
 
         return view('administrator.produk', $data);

@@ -118,13 +118,14 @@ class PelangganController extends Controller
 
     public function hapus(Request $req)
     {
-        $pelanggan = Pelanggan::where('pengguna_id', $req->pengguna_id)->delete();
-        $akun = Pengguna::where('id_pengguna', $req->pengguna_id)->delete();
+        // dd($req->id_pelanggan);
+        $pelanggan = Pelanggan::where('id_pelanggan', $req->id_pelanggan)->delete();
+        // $akun = Pengguna::where('id_pengguna', $req->pengguna_id)->delete();
+        return redirect('/pengguna/pelanggan')->with('success', 'Data berhasil dihapus!');
 
-        if ($akun && $pelanggan) {
-            return redirect('/pengguna/pelanggan')->with('Success', 'Data berhasil dihapus!');
-        } else {
-            return redirect()->back()->with('Error', 'Data gagal dihapus!');
-        }
+        // if ($pelanggan) {
+        // } else {
+        //     return redirect()->back()->with('Error', 'Data gagal dihapus!');
+        // }
     }
 }

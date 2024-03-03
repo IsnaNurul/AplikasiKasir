@@ -4,6 +4,10 @@
     @section('style')
         <!-- Select2 CSS -->
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+
+        <link rel="stylesheet" type="text/css" href="../assets/css/vendors/swiper/swiper-bundle.min.css">
+        <link rel="stylesheet" type="text/css" href="../assets/css/vendors/swiper/swiper.min.css">
+        <link rel="stylesheet" type="text/css" href="../assets/css/vendors/scrollbar.css">
         <style>
             .card .me-2 {
                 transition: transform 0.3s ease-in-out;
@@ -70,6 +74,45 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xl-8 col-md-12 box-col-12">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-header card-no-border">
+                                <div class="header-top">
+                                    <h5>Kategori</h5>
+                                    <div class="card-header-right-btn"><a class="font-dark f-12" href="/penjualan">View All </a></div>
+                                </div>
+                            </div>
+                            <div class="card-body pt-0">
+                                <div class="slider-wrapper arrow-round">
+                                    <div class="swiper shop-category-slider">
+                                        <div class="swiper-wrapper">
+                                            {{-- <div class="swiper-slide">
+                                                <a href="{{ route('penjualan.index') }}" class="shop-box">
+                                                    <img src="../assets/images/f&b.png" style="width: 60%" alt="All">
+                                                </a>
+                                                <span class="m-t-10 category-title f-w-500 text-gray">
+                                                    <b>All</b>
+                                                </span>
+                                            </div> --}}
+                                            @foreach ($kategori_produk as $kategori)
+                                                <div class="swiper-slide">
+                                                    <a href="{{ route('penjualan.index', ['kategori' => $kategori->id_kategori_produk]) }}"
+                                                        class="shop-box">
+                                                        <img src="../assets/images/f&b.png" style="width: 60%"
+                                                            alt="{{ $kategori->nama_kategori }}">
+                                                    </a>
+                                                    <span class="m-t-10 category-title f-w-500 text-gray">
+                                                        <b>{{ $kategori->nama_kategori }}</b>
+                                                    </span>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                     <div class="file-content">
                         <div class="card">
                             <div class="card-header">
@@ -410,6 +453,7 @@
                             <form action="/pengguna/pelanggan/add" method="post" class="row g-3 needs-validation"
                                 novalidate>
                                 @csrf
+
                                 <h6 class="">Data Diri</h6>
                                 <div class="col-md-12">
                                     <label class="form-label" for="validationCustom03">Nama Lengkap</label>
@@ -420,7 +464,7 @@
                                 <div class="col-md-12">
                                     <label class="form-label" for="validationCustom04">No Telepon</label>
                                     <input class="form-control" id="validationCustom03" type="text" name="no_telepon"
-                                        placeholder="62882xxxxxx">
+                                        placeholder="Masukan no telepon">
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
                                 <div class="col-md-12">
@@ -519,30 +563,15 @@
 
 
 @section('script')
-    {{-- <script>
-        $(document).ready(function () {
-            @if (session('success'))
-                Swal.fire({
-                    icon: 'success',
-                    title: '{{ session('success') }}',
-                    showCancelButton: true,
-                    confirmButtonText: 'Cetak Invoice',
-                    cancelButtonText: 'Tutup',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        var blob = new Blob([new Uint8Array({{ session('pdf') }})], { type: 'application/pdf' });
-                        var url = URL.createObjectURL(blob);
-                        var a = document.createElement('a');
-                        a.href = url;
-                        a.download = 'invoice.pdf';
-                        document.body.appendChild(a);
-                        a.click();
-                        window.URL.revokeObjectURL(url);
-                    }
-                });
-            @endif
+    <script>
+        document.querySelectorAll('.shop-box').forEach(function(element) {
+            element.addEventListener('click', function(event) {
+                event.preventDefault();
+                var url = this.getAttribute('href');
+                window.location.href = url;
+            });
         });
-    </script> --}}
+    </script>
 
     <script>
         $(document).ready(function() {
@@ -619,5 +648,15 @@
     <script src="../assets/js/typeahead-search/typeahead-custom.js"></script>
     <script src="../assets/js/height-equal.js"></script>
     <script src="../assets/js/animation/wow/wow.min.js"></script>
+    <script src="../assets/js/swiper/swiper-bundle.min.js"></script>
+    <script src="../assets/js/dashboard/dashboard_8.js"></script>
+    <script src="../assets/js/height-equal.js"></script>
+    <!-- Plugins JS Ends-->
+    <!-- Theme js-->
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/theme-customizer/customizer.js"></script>
+    <!-- scrollbar js-->
+    <script src="../assets/js/scrollbar/simplebar.js"></script>
+    <script src="../assets/js/scrollbar/custom.js"></script>
     <!-- Plugins JS Ends-->
 @endsection

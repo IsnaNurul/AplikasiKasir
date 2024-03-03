@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama_pelanggan', 64);
             $table->text('alamat')->nullable();
             $table->string('no_telepon', 16)->nullable();
-            $table->unsignedInteger('pengguna_id');
+            $table->unsignedInteger('pengguna_id')->nullable();
             $table->foreign('pengguna_id')->references('id_pengguna')->on('penggunas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });

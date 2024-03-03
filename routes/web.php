@@ -51,7 +51,7 @@ Route::middleware(['statuslogin'])->group(function () {
     Route::get('/pengguna/pelanggan', [PelangganController::class, 'index']);
     Route::post('/pengguna/pelanggan/add', [PelangganController::class, 'add']);
     Route::post('/pengguna/pelanggan/edit/{id_pelanggan}', [PelangganController::class, 'edit']);
-    Route::get('/pengguna/pelanggan/hapus/{pengguna}', [PelangganController::class, 'hapus']);
+    Route::get('/pengguna/pelanggan/hapus/{id_pelanggan}', [PelangganController::class, 'hapus']);
 
 
     //kategori
@@ -89,7 +89,9 @@ Route::middleware(['statuslogin'])->group(function () {
     Route::post('/pembelian/detail/edit/{id_detail_beli}', [PembelianController::class, 'editDetail']);
 
     //penjualan
-    Route::get('/penjualan', [PenjualanController::class, 'index']);
+    Route::get('/penjualan', [PenjualanController::class, 'index'])->name('penjualan.index');
+    // Route::get('/penjualan', 'PenjualanController@index');
+
     Route::get('/penjualan/riwayat', [PenjualanController::class, 'riwayat']);
     Route::post('/penjualan', [PenjualanController::class, 'search']);
     Route::post('/penjualan/add', [PenjualanController::class, 'add']);

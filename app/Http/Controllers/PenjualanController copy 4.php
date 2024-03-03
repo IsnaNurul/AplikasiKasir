@@ -18,66 +18,41 @@ class PenjualanController extends Controller
     {
         if (auth()->user()->level_akses == 'petugas' || auth()->user()->level_akses == 'administrator') {
             $data['penjualan'] = Penjualan::with('pengguna', 'pelanggan')->get();
+            $data['produk'] = Produk::with('diskon_produk')->get();
             $data['kategori_produk'] = KategoriProduk::all();
             $data['pelanggan'] = Pelanggan::all();
             $data['tanggal'] = Carbon::now('Asia/jakarta');
-
-            // Handle filter request
-            if ($request->has('kategori')) {
-                $kategoriId = $request->input('kategori');
-                $data['produk'] = Produk::whereHas('kategori_produk', function ($query) use ($kategoriId) {
-                    $query->where('kategori_produk_id', $kategoriId);
-                })->with('diskon_produk')->get();
-
-                foreach ($data['produk'] as $key => $value) {
-                    // Menghitung harga setelah diskon
-                    $hargaSetelahDiskon = $value->harga;
-
-                    if ($value->diskon_produk) {
-                        if ($value->diskon_produk->jenis_diskon == 'persentase') {
-                            $hargaSetelahDiskon -= ($value->harga * ($value->diskon_produk->nilai / 100));
-                        } elseif ($value->diskon_produk->jenis_diskon == 'nominal') {
-                            $hargaSetelahDiskon -= $value->diskon_produk->nilai;
-                        }
-                    }
-
-                    // Menambahkan harga setelah diskon ke dalam array data
-                    $data['produk'][$key]['harga_diskon'] = $hargaSetelahDiskon;
-                }
-            } else {
-                // Jika tidak ada filter, tampilkan semua produk
-                $data['produk'] = Produk::with('diskon_produk')->get();
-
-                foreach ($data['produk'] as $key => $value) {
-                    // Menghitung harga setelah diskon
-                    $hargaSetelahDiskon = $value->harga;
-
-                    if ($value->diskon_produk) {
-                        if ($value->diskon_produk->jenis_diskon == 'persentase') {
-                            $hargaSetelahDiskon -= ($value->harga * ($value->diskon_produk->nilai / 100));
-                        } elseif ($value->diskon_produk->jenis_diskon == 'nominal') {
-                            $hargaSetelahDiskon -= $value->diskon_produk->nilai;
-                        }
-                    }
-
-                    // Menambahkan harga setelah diskon ke dalam array data
-                    $data['produk'][$key]['harga_diskon'] = $hargaSetelahDiskon;
-                }
-            }
 
             $data['kode_otomatis'] = Penjualan::latest()->value('kode_transaksi');
 
             // Jika tidak ada transaksi sebelumnya, kode_transaksi_terakhir akan bernilai null
             if ($data['kode_otomatis']) {
+
                 $data['kode_otomatis'] += 1;
             } else {
                 $data['kode_otomatis'] = "1";
             }
 
+            foreach ($data['produk'] as $key => $value) {
+                // Menghitung harga setelah diskon
+                $hargaSetelahDiskon = $value->harga;
+
+
+                if ($value->diskon_produk) {
+                    if ($value->diskon_produk->jenis_diskon == 'persentase') {
+                        $hargaSetelahDiskon -= ($value->harga * ($value->diskon_produk->nilai / 100));
+                    } elseif ($value->diskon_produk->jenis_diskon == 'nominal') {
+                        $hargaSetelahDiskon -= $value->diskon_produk->nilai;
+                    }
+                }
+
+                // Menambahkan harga setelah diskon ke dalam array data
+                $data['produk'][$key]['harga_diskon'] = $hargaSetelahDiskon;
+            }
+
             return view('petugas.penjualan', $data);
         }
     }
-
 
     public function riwayat()
     {
@@ -341,7 +316,7 @@ class PenjualanController extends Controller
 
             session()->forget('carts');
 
-            return redirect('/penjualan')->with('success', 'Transaksi berhasil');
+            return redirect('/laporan-penjualan/invoice/'. $transaksiId)->with('success', 'Transaksi berhasil');
         } else {
             return back()->with('error', 'Gagal menambahkan transaksi ke database!');
         }

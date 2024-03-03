@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col-6">
                     <h4>
-                        Pesanan Produk</h4>
+                        Laporan Penjualan</h4>
                 </div>
                 <div class="col-6">
                     <ol class="breadcrumb">
@@ -23,7 +23,7 @@
                                     <use href="../assets/svg/icon-sprite.svg#stroke-home"></use>
                                 </svg></a></li>
                         <li class="breadcrumb-item">Apps</li>
-                        <li class="breadcrumb-item active">pengiriman Produk</li>
+                        <li class="breadcrumb-item active">Laporan Penjualan</li>
                     </ol>
                 </div>
             </div>

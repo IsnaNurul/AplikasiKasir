@@ -74,7 +74,7 @@
                                         <td> 
                                             <div class="product-action">
                                                 <a href="#" class="me-3 edit-admin" data-bs-toggle="modal" data-bs-target="#modalEdit{{ $item->id_pelanggan }}" data-whatever="@getbootstrap"><i class="fa fa-pencil-square-o" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit"></i></a>
-                                                <a class="delete-item" href="/pengguna/pelanggan/hapus/{{ $item->pengguna_id }}"><i class="fa fa-trash-o text-danger"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Hapus"></i></a>
+                                                <a class="delete-item" href="/pengguna/pelanggan/hapus/{{ $item->id_pelanggan }}"><i class="fa fa-trash-o text-danger"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Hapus"></i></a>
                                             </div>
                                         </td>
                                     </tr>
