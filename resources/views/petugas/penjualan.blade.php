@@ -9,6 +9,22 @@
         <link rel="stylesheet" type="text/css" href="../assets/css/vendors/swiper/swiper.min.css">
         <link rel="stylesheet" type="text/css" href="../assets/css/vendors/scrollbar.css">
         <style>
+            .satu {
+                height: 100vh;
+            }
+
+            .dua {
+                height: 100%;
+                overflow: auto;
+            }
+
+            .table-container {
+                max-height: 20px;
+                /* Atur tinggi maksimum container */
+                overflow-y: auto;
+                /* Atur overflow untuk membuat scrollbar vertikal */
+            }
+
             .card .me-2 {
                 transition: transform 0.3s ease-in-out;
             }
@@ -73,115 +89,110 @@
         <!-- Container-fluid starts-->
         <div class="container-fluid">
             <div class="row">
-                <div class="col-xl-8 col-md-12 box-col-12">
-                    <div class="col-xl-12">
-                        <div class="card">
-                            <div class="card-header card-no-border">
-                                <div class="header-top">
-                                    <h5>Kategori</h5>
-                                    <div class="card-header-right-btn"><a class="font-dark f-12" href="/penjualan">View All </a></div>
+                <div class="col-xl-8 col-md-12 box-col-12 satu">
+                    <div class="dua">
+                        <div class="col-xl-12">
+                            <div class="card slider-wrapper">
+                                <div class="card-header card-no-border">
+                                    <div class="header-top">
+                                        <h5>Kategori</h5>
+                                        <div class="card-header-right-btn"><a class="font-dark f-12" href="/penjualan">View
+                                                All </a></div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="card-body pt-0">
-                                <div class="slider-wrapper arrow-round">
-                                    <div class="swiper shop-category-slider">
-                                        <div class="swiper-wrapper">
-                                            {{-- <div class="swiper-slide">
-                                                <a href="{{ route('penjualan.index') }}" class="shop-box">
-                                                    <img src="../assets/images/f&b.png" style="width: 60%" alt="All">
-                                                </a>
-                                                <span class="m-t-10 category-title f-w-500 text-gray">
-                                                    <b>All</b>
-                                                </span>
-                                            </div> --}}
-                                            @foreach ($kategori_produk as $kategori)
-                                                <div class="swiper-slide">
-                                                    <a href="{{ route('penjualan.index', ['kategori' => $kategori->id_kategori_produk]) }}"
-                                                        class="shop-box">
-                                                        <img src="../assets/images/f&b.png" style="width: 60%"
-                                                            alt="{{ $kategori->nama_kategori }}">
-                                                    </a>
-                                                    <span class="m-t-10 category-title f-w-500 text-gray">
-                                                        <b>{{ $kategori->nama_kategori }}</b>
-                                                    </span>
-                                                </div>
-                                            @endforeach
+                                <div class="card-body pt-0">
+                                    <div class=" arrow-round">
+                                        <div class="swiper shop-category-slider">
+                                            <div class="swiper-wrapper">
+                                                @foreach ($kategori_produk as $kategori)
+                                                    <div class="swiper-slide">
+                                                        <a href="{{ route('penjualan.index', ['kategori' => $kategori->id_kategori_produk]) }}"
+                                                            class="shop-box">
+                                                            <img src="../assets/images/f&b.png" style="width: 60%"
+                                                                alt="{{ $kategori->nama_kategori }}">
+                                                        </a>
+                                                        <span class="m-t-10 category-title f-w-500 text-gray">
+                                                            <b>{{ $kategori->nama_kategori }}</b>
+                                                        </span>
+                                                    </div>
+                                                @endforeach
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                    </div>
-                    <div class="file-content">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="d-flex align-items-center">
-                                    <form class="form-inline" action="/penjualan" method="post">
-                                        @csrf
-                                        <div class="form-group mb-0 d-flex justify-content-between"> <i
-                                                class="fa fa-search"></i>
-                                            <input class="form-control-plaintext" name="nama" type="search"
-                                                placeholder="Search...">
-                                    </form>
+                        </div>
+                        <div class="file-content">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="d-flex align-items-center">
+                                        <form class="form-inline" action="/penjualan" method="post">
+                                            @csrf
+                                            <div class="form-group mb-0 d-flex justify-content-between"> <i
+                                                    class="fa fa-search"></i>
+                                                <input class="form-control-plaintext" name="nama" type="search"
+                                                    placeholder="Search...">
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card-body file-manager">
-                            <h4 class="mb-3">Semua Produk</h4>
-                            {{-- <h6>Recently opened files</h6> --}}
-                            <ul class="files">
-                                <div class="row">
-                                    @foreach ($produk as $item)
-                                        <div class="card me-2" style="width: 14rem; height:25rem"
-                                            data-id="{{ $item->kode_produk }}">
-                                            @if ($item->diskon_produk_id)
-                                                @if ($item->diskon_produk->jenis_diskon == 'persentase')
-                                                    <div class="ribbon ribbon-success ribbon-right me-2">
-                                                        {{ $item->diskon_produk->nilai . '%' }}</div>
-                                                @else
-                                                    <div class="ribbon ribbon-danger ribbon-right me-2">Sale</div>
-                                                @endif
-                                            @endif
-                                            @if ($item->gambar_produk)
-                                                <img class="card-img-top" style="height: 200px"
-                                                    src="{{ asset('storage/' . $item->gambar_produk) }}" alt="">
-                                            @endif
-                                            <div class="card-body">
-                                                <h5 class="card-title mb-0">{{ $item->nama_produk }}</h5>
-                                                <p class="card-text mb-1">{{ $item->kategori_produk->nama_kategori }}
-                                                </p>
-                                                <div class="row mb-2">
-                                                    @if ($item->diskon_produk_id)
-                                                        <a href="#" class="harga-produk"
-                                                            style="width: 70%;  font-size:15px"><b>{{ 'Rp. ' . number_format($item->harga_diskon) }}</b>
-                                                            <br><del class=""
-                                                                style="color: darkgray; font-size:10px">{{ 'Rp. ' . number_format($item->harga) }}</del>
-                                                        </a>
+                            <div class="card-body file-manager">
+                                <h4 class="mb-3">Semua Produk</h4>
+                                {{-- <h6>Recently opened files</h6> --}}
+                                <ul class="files">
+                                    <div class="row d-flex justify-content-center align-items-center">
+                                        @foreach ($produk as $item)
+                                            <div class="card me-2" style="width: 14rem; height:25rem"
+                                                data-id="{{ $item->kode_produk }}">
+                                                @if ($item->diskon_produk_id)
+                                                    @if ($item->diskon_produk->jenis_diskon == 'persentase')
+                                                        <div class="ribbon ribbon-success ribbon-right me-2">
+                                                            {{ $item->diskon_produk->nilai . '%' }}</div>
                                                     @else
-                                                        <a href="#" class="harga-produk mb-4"
-                                                            style="width: 70%;  font-size:15px"><b>{{ 'Rp. ' . number_format($item->harga) }}</b>
-                                                        </a>
+                                                        <div class="ribbon ribbon-danger ribbon-right me-2">Sale</div>
                                                     @endif
-                                                    <a href="#" class="text-end"
-                                                        style="width: 30%; font-size:11px">#{{ $item->stok }}</a>
+                                                @endif
+                                                @if ($item->gambar_produk)
+                                                    <img class="card-img-top" style="height: 200px"
+                                                        src="{{ asset('storage/' . $item->gambar_produk) }}" alt="">
+                                                @endif
+                                                <div class="card-body">
+                                                    <h5 class="card-title mb-0">{{ $item->nama_produk }}</h5>
+                                                    <p class="card-text mb-1">{{ $item->kategori_produk->nama_kategori }}
+                                                    </p>
+                                                    <div class="row mb-2">
+                                                        @if ($item->diskon_produk_id)
+                                                            <a href="#" class="harga-produk"
+                                                                style="width: 70%;  font-size:15px"><b>{{ 'Rp. ' . number_format($item->harga_diskon) }}</b>
+                                                                <br><del class=""
+                                                                    style="color: darkgray; font-size:10px">{{ 'Rp. ' . number_format($item->harga) }}</del>
+                                                            </a>
+                                                        @else
+                                                            <a href="#" class="harga-produk mb-4"
+                                                                style="width: 70%;  font-size:15px"><b>{{ 'Rp. ' . number_format($item->harga) }}</b>
+                                                            </a>
+                                                        @endif
+                                                        <a href="#" class="text-end"
+                                                            style="width: 30%; font-size:11px">#{{ $item->stok }}</a>
+                                                    </div>
+                                                    <a href="/penjualan/cart/{{ $item->kode_produk }}"
+                                                        class="btn btn-primary btn-block w-100">
+                                                        <i data-feather="plus-square"></i> Pilih
+                                                    </a>
                                                 </div>
-                                                <a href="/penjualan/cart/{{ $item->kode_produk }}"
-                                                    class="btn btn-primary btn-block w-100">
-                                                    <i data-feather="plus-square"></i> Pilih
-                                                </a>
                                             </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </ul>
+                                        @endforeach
+                                    </div>
+                                </ul>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>
             <div class="col-xl-4 box-col-8 pe-0">
-                <div class="md-sidebar"><a class="btn btn-primary md-sidebar-toggle" href="javascript:void(0)">file
-                        filter</a>
+                <div class="md-sidebar">
                     <div class="md-sidebar-aside job-left-aside custom-scrollbar">
                         <div class="file-sidebar">
                             <div class="card">
@@ -234,7 +245,8 @@
                                                 <div class="product-wrap">
                                                     <div
                                                         class="product-list d-flex align-items-center justify-content-between">
-                                                        <table class="table  table-responsive table-borderless">
+                                                        <table
+                                                            class="table table-container table-responsive table-borderless">
                                                             @php $total = 0; @endphp
                                                             @php $totalDiskon = 0; @endphp
                                                             @php $diskonFinal = 0; @endphp
@@ -242,14 +254,23 @@
                                                             @if (session('carts'))
                                                                 @foreach (session('carts') as $kode_produk => $details)
                                                                     @php
-                                                                        if ($details['diskon_produk_id'] != null) {
-                                                                            $diskon = DB::table('diskon_produks')
+                                                                        if (
+                                                                            $details['diskon_produk_id'] != null
+                                                                        ) {
+                                                                            $diskon = DB::table(
+                                                                                'diskon_produks',
+                                                                            )
                                                                                 ->where(
                                                                                     'id_diskon_produk',
-                                                                                    $details['diskon_produk_id'],
+                                                                                    $details[
+                                                                                        'diskon_produk_id'
+                                                                                    ],
                                                                                 )
                                                                                 ->first();
-                                                                            if ($diskon->jenis_diskon == 'persentase') {
+                                                                            if (
+                                                                                $diskon->jenis_diskon ==
+                                                                                'persentase'
+                                                                            ) {
                                                                                 $totalDiskon =
                                                                                     $details['harga'] *
                                                                                     ($diskon->nilai / 100) *
@@ -270,53 +291,58 @@
 
                                                                     @php $total += $details['harga'] * $details['jumlah_produk']; @endphp
                                                                     @php $totalFinal = $total - $diskonFinal; @endphp
-                                                                    <td class="text-start">
-                                                                        {{ $details['nama_produk'] }} x
-                                                                        <b>{{ $details['jumlah_produk'] }}</b> <br>
-                                                                        @if ($details['keterangan'])
-                                                                            {{ $details['keterangan'] }} <br>
-                                                                        @endif
-                                                                        @if ($details['diskon_produk_id'] != null)
-                                                                            Disc. - {{ number_format($totalDiskon) }}
-                                                                        @endif
-                                                                    </td>
-                                                                    <td class="text-end">
-                                                                        {{ 'Rp. ' . number_format($details['harga'] * $details['jumlah_produk']) }}
-                                                                        <br>
-                                                                        @if ($details['keterangan'])
-                                                                            <span></span> <br>
-                                                                        @endif
-                                                                        @if ($details['diskon_produk_id'] != null)
-                                                                            {{ 'Rp. ' . number_format($hargaFinal) }}
-                                                                        @endif
+                                                                    <tr class="two">
+                                                                        <td class="text-start">
+                                                                            {{ $details['nama_produk'] }} x
+                                                                            <b>{{ $details['jumlah_produk'] }}</b>
+                                                                            <br>
+                                                                            @if ($details['keterangan'])
+                                                                                {{ $details['keterangan'] }} <br>
+                                                                            @endif
+                                                                            @if ($details['diskon_produk_id'] != null)
+                                                                                Disc. -
+                                                                                {{ number_format($totalDiskon) }}
+                                                                            @endif
+                                                                        </td>
+                                                                        <td class="text-end">
+                                                                            {{ 'Rp. ' . number_format($details['harga'] * $details['jumlah_produk']) }}
+                                                                            <br>
+                                                                            @if ($details['keterangan'])
+                                                                                <span></span> <br>
+                                                                            @endif
+                                                                            @if ($details['diskon_produk_id'] != null)
+                                                                                {{ 'Rp. ' . number_format($hargaFinal) }}
+                                                                            @endif
 
-                                                                    </td>
-                                                                    <td class="text-end" style="width: 1%">
-                                                                        <a href="#" class="update-product-btn"
-                                                                            data-bs-toggle="modal"
-                                                                            data-bs-target="#exampleModalgetbootstrap{{ $kode_produk }}">
-                                                                            <i class="fa fa-pencil"></i>
-                                                                        </a>
-                                                                        @if ($details['keterangan'])
-                                                                            <span></span> <br>
-                                                                        @endif
-                                                                        @if ($details['diskon_produk_id'] != null)
-                                                                            <span></span>
-                                                                        @endif
-                                                                    </td>
-                                                                    {{-- <td>{{ $totalDiskon }}</td> --}}
-                                                                    <td class="text-end" style="width: 1%">
-                                                                        <a href="/penjualan/cartHapus/{{ $kode_produk }}"
-                                                                            class="remove-product-btn">
-                                                                            <i class="fa fa-trash text-danger"></i>
-                                                                        </a>
-                                                                        @if ($details['keterangan'])
-                                                                            <span></span> <br>
-                                                                        @endif
-                                                                        @if ($details['diskon_produk_id'] != null)
-                                                                            <span></span>
-                                                                        @endif
-                                                                    </td>
+                                                                        </td>
+                                                                        <td class="text-end" style="width: 1%">
+                                                                            <a href="#"
+                                                                                class="update-product-btn"
+                                                                                data-bs-toggle="modal"
+                                                                                data-bs-target="#exampleModalgetbootstrap{{ $kode_produk }}">
+                                                                                <i class="fa fa-pencil"></i>
+                                                                            </a>
+                                                                            @if ($details['keterangan'])
+                                                                                <span></span> <br>
+                                                                            @endif
+                                                                            @if ($details['diskon_produk_id'] != null)
+                                                                                <span></span>
+                                                                            @endif
+                                                                        </td>
+                                                                        {{-- <td>{{ $totalDiskon }}</td> --}}
+                                                                        <td class="text-end" style="width: 1%">
+                                                                            <a href="/penjualan/cartHapus/{{ $kode_produk }}"
+                                                                                class="remove-product-btn">
+                                                                                <i
+                                                                                    class="fa fa-trash text-danger"></i>
+                                                                            </a>
+                                                                            @if ($details['keterangan'])
+                                                                                <span></span> <br>
+                                                                            @endif
+                                                                            @if ($details['diskon_produk_id'] != null)
+                                                                                <span></span>
+                                                                            @endif
+                                                                        </td>
                                                                     </tr>
                                                                 @endforeach
                                                             @endif

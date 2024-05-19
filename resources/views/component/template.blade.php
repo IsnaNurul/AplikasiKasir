@@ -13,9 +13,9 @@
     <meta name="keywords"
         content="admin template, Cuba admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="author" content="pixelstrap">
-    <link rel="icon" href="../../assets/images/pos.png" type="image/x-icon">
+    <link rel="icon" href="../../assets/images/logo/logo.png" type="image/x-icon">
     <link rel="shortcut icon" href="../../assets/images/pos.png" type="image/x-icon">
-    <title>LARANA POS - Kasir Pintar</title>
+    <title>AMICO POS - Kasir Pintar</title>
     <!-- Google font-->
     <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap"
         rel="stylesheet">
@@ -73,8 +73,8 @@
             <div class="header-wrapper row m-0">
                 <div class="header-logo-wrapper col-auto p-0">
                     <div class="logo-wrapper"><a href="index.html"><img class="img-fluid for-light"
-                                src="../../assets/images/pos.png" style="width: 100pxpx"><img class="img-fluid for-dark"
-                                src="../../assets/images/pos.png" alt=""></a></div>
+                                src="../../assets/images/logo/logo.png" style="width: 100pxpx"><img class="img-fluid for-dark"
+                                src="../../assets/images/logo/logo.png" alt=""></a></div>
                     <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle"
                             data-feather="align-center"></i></div>
                 </div>

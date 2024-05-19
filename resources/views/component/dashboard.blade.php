@@ -300,7 +300,7 @@
                                                     </td>
                                                     <td class="img-content-box">
                                                         <a class="d-block f-w-500" href="javascript:void(0)">{{ $data->produk->nama_produk }}</a>
-                                                        <span class="f-light">{{ $data->total_penjualan }} Items</span>
+                                                        <span class="f-light">{{ $data->total_penjualan }} Terjual</span>
                                                     </td>
                                                     <td class="text-end">
                                                         <span class="f-w-500">Rp. {{ $data->produk->harga }}</span>
@@ -659,7 +659,7 @@
                                             </td>
                                             <td class="img-content-box">
                                                 <a class="d-block f-w-500" href="javascript:void(0)">{{ $data->produk->nama_produk }}</a>
-                                                <span class="f-light">{{ $data->total_penjualan }} Items</span>
+                                                <span class="f-light">{{ $data->total_penjualan }} Terjual</span>
                                             </td>
                                             <td class="text-end">
                                                 <span class="f-w-500">Rp. {{ $data->produk->harga }}</span>
